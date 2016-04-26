@@ -1,0 +1,378 @@
+fileFormatVersion: 2
+guid: 1888bbfdf11d48b47b402f677ca701fe
+timeCreated: 1460746361
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Botoes_jogo_PINGO_EVK_0
+    21300002: Botoes_jogo_PINGO_EVK_3
+    21300004: Botoes_jogo_PINGO_EVK_4
+    21300006: Botoes_jogo_PINGO_EVK_7
+    21300008: Botoes_jogo_PINGO_EVK_8
+    21300010: Botoes_jogo_PINGO_EVK_5
+    21300012: Botoes_jogo_PINGO_EVK_6
+    21300014: Botoes_jogo_PINGO_EVK_9
+    21300016: Botoes_jogo_PINGO_EVK_10
+    21300018: Botoes_jogo_PINGO_EVK_14
+    21300020: Botoes_jogo_PINGO_EVK_15
+    21300022: Botoes_jogo_PINGO_EVK_19
+    21300024: Botoes_jogo_PINGO_EVK_1
+    21300026: Botoes_jogo_PINGO_EVK_2
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Botoes_jogo_PINGO_EVK_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 348
+        width: 106
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -53, y: -26.5}
+        - {x: 5, y: -50.5}
+        - {x: 13, y: -50.5}
+        - {x: 13, y: 50.5}
+        - {x: -4, y: 50.5}
+        - {x: -53, y: 36.5}
+      - - {x: 21, y: 32.5}
+        - {x: 19, y: 30.5}
+        - {x: 19, y: -29.5}
+        - {x: 21, y: -31.5}
+        - {x: 30, y: -31.5}
+        - {x: 32, y: -29.5}
+        - {x: 32, y: 30.5}
+        - {x: 30, y: 32.5}
+      - - {x: 39, y: 22.5}
+        - {x: 39, y: -22.5}
+        - {x: 50, y: -22.5}
+        - {x: 50, y: 21.5}
+        - {x: 48, y: 23.5}
+        - {x: 41, y: 23.5}
+      tessellationDetail: 0
+    - name: Botoes_jogo_PINGO_EVK_3
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 350
+        width: 77
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -38.5, y: 49}
+        - {x: -38.5, y: 13}
+        - {x: -37.5, y: 7}
+        - {x: -30.5, y: -49}
+        - {x: 24.5, y: -49}
+        - {x: 36.5, y: -23}
+        - {x: 38.5, y: -3}
+        - {x: 38.5, y: 49}
+      - - {x: -25.5, y: 20}
+        - {x: -28.5, y: 24}
+        - {x: -28.5, y: 26}
+        - {x: -26.5, y: 36}
+        - {x: -25.5, y: 19}
+      - - {x: 25.5, y: 36}
+        - {x: 25.5, y: 21}
+        - {x: 24.5, y: 19}
+        - {x: 25.5, y: 19}
+      tessellationDetail: 0
+    - name: Botoes_jogo_PINGO_EVK_4
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 326
+        width: 141
+        height: 141
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -52.5, y: 70.5}
+        - {x: -70.5, y: 58.5}
+        - {x: -70.5, y: -63.5}
+        - {x: -62.5, y: -70.5}
+        - {x: 46.5, y: -70.5}
+        - {x: 70.5, y: -57.5}
+        - {x: 70.5, y: 52.5}
+        - {x: 30.5, y: 70.5}
+      - - {x: -52.5, y: -7.5}
+        - {x: -9.5, y: 52.5}
+        - {x: 50.5, y: -20.5}
+        - {x: -5.5, y: -53.5}
+      - - {x: -6.5, y: -45.5}
+        - {x: 7.5, y: -45.5}
+        - {x: 7.5, y: 21.5}
+        - {x: -6.5, y: 21.5}
+      - - {x: -3.5, y: 45.5}
+        - {x: -9.5, y: 42.5}
+        - {x: -10.5, y: 38.5}
+        - {x: -10.5, y: 28.5}
+        - {x: -5.5, y: 23.5}
+        - {x: 9.5, y: 23.5}
+        - {x: 10.5, y: 27.5}
+        - {x: 10.5, y: 44.5}
+        - {x: 9.5, y: 45.5}
+      tessellationDetail: 0
+    - name: Botoes_jogo_PINGO_EVK_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 223
+        width: 64
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 27, y: 38}
+        - {x: -4, y: 17}
+        - {x: -32, y: 14}
+        - {x: -32, y: -38}
+        - {x: 32, y: -38}
+        - {x: 32, y: 38}
+      tessellationDetail: 0
+    - name: Botoes_jogo_PINGO_EVK_6
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 190
+        width: 116
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -37, y: 58}
+        - {x: -58, y: 28}
+        - {x: -58, y: -54}
+        - {x: -54, y: -58}
+        - {x: 21, y: -58}
+        - {x: 55, y: -33}
+        - {x: 58, y: -28}
+        - {x: 58, y: 58}
+      tessellationDetail: 0
+    - name: Botoes_jogo_PINGO_EVK_9
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 182
+        width: 71
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -35.5, y: 1.5}
+        - {x: -35.5, y: -44.5}
+        - {x: -17.5, y: -44.5}
+        - {x: -17.5, y: 0.5}
+        - {x: -19.5, y: 2.5}
+        - {x: -34.5, y: 2.5}
+      - - {x: -8.5, y: 26.5}
+        - {x: -8.5, y: -44.5}
+        - {x: 10.5, y: -44.5}
+        - {x: 10.5, y: 26.5}
+        - {x: 8.5, y: 28.5}
+        - {x: -6.5, y: 28.5}
+      - - {x: 18.5, y: 44.5}
+        - {x: 18.5, y: -44.5}
+        - {x: 35.5, y: -44.5}
+        - {x: 35.5, y: 44.5}
+      tessellationDetail: 0
+    - name: Botoes_jogo_PINGO_EVK_10
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 205
+        width: 130
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 6, y: -14}
+        - {x: -8, y: 22}
+        - {x: -21, y: 22}
+        - {x: -22, y: 19}
+        - {x: -27, y: 5}
+        - {x: -30, y: -3}
+        - {x: -35, y: 15}
+        - {x: -40, y: 22}
+        - {x: -65, y: 22}
+        - {x: -65, y: -22}
+        - {x: 6, y: -22}
+      - - {x: -2, y: 22}
+        - {x: -2, y: 11}
+        - {x: 11, y: -22}
+        - {x: 21, y: -22}
+        - {x: 35, y: 17}
+        - {x: 35, y: 22}
+      - - {x: 36, y: 22}
+        - {x: 36, y: -22}
+        - {x: 65, y: -22}
+        - {x: 65, y: 22}
+      - - {x: -15, y: 7}
+        - {x: -13, y: 0}
+        - {x: -16, y: 0}
+      - - {x: -56, y: 14}
+        - {x: -47, y: 8}
+        - {x: -50, y: 5}
+        - {x: -56, y: 5}
+      tessellationDetail: 0
+    - name: Botoes_jogo_PINGO_EVK_14
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 0
+        width: 84
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 42, y: 12}
+        - {x: 5, y: 39}
+        - {x: -15, y: 46}
+        - {x: -18, y: 40}
+        - {x: -18, y: 37}
+        - {x: -35, y: 49}
+        - {x: -42, y: 49}
+        - {x: -42, y: -49}
+        - {x: -35, y: -49}
+        - {x: -27, y: -44}
+        - {x: 0, y: -27}
+        - {x: 42, y: 1}
+      tessellationDetail: 0
+    - name: Botoes_jogo_PINGO_EVK_15
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 0
+        width: 85
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23.5, y: 33.5}
+        - {x: -10.5, y: 20.5}
+        - {x: -32.5, y: -32.5}
+        - {x: -25.5, y: 46.5}
+        - {x: -31.5, y: 49.5}
+        - {x: -42.5, y: 49.5}
+        - {x: -42.5, y: -49.5}
+        - {x: -4.5, y: -49.5}
+        - {x: 42.5, y: -6.5}
+        - {x: 42.5, y: 25.5}
+        - {x: -20.5, y: 36.5}
+      tessellationDetail: 0
+    - name: Botoes_jogo_PINGO_EVK_19
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 4
+        width: 88
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 45}
+        - {x: -44, y: -48}
+        - {x: -15, y: -48}
+        - {x: 5, y: -43}
+        - {x: 44, y: -3}
+        - {x: 44, y: 19}
+        - {x: -2, y: 43}
+      tessellationDetail: 0
+    - name: Botoes_jogo_PINGO_EVK_1
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 182
+        width: 56
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -28, y: 0.5}
+        - {x: -28, y: -44.5}
+        - {x: -9, y: -44.5}
+        - {x: -9, y: 0.5}
+        - {x: -11, y: 2.5}
+        - {x: -26, y: 2.5}
+      - - {x: 0, y: 26.5}
+        - {x: 0, y: -44.5}
+        - {x: 19, y: -44.5}
+        - {x: 19, y: 26.5}
+        - {x: 17, y: 28.5}
+        - {x: 2, y: 28.5}
+      tessellationDetail: 0
+    - name: Botoes_jogo_PINGO_EVK_2
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 183
+        width: 20
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
