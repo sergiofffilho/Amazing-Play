@@ -21,12 +21,12 @@ public class Camera : MonoBehaviour {
 
     public void VirarCima()
     {
-        camera.transform.Rotate(0,0,90);
+       // camera.transform.Rotate(0,0,90);
         
     }
 
     public void VirarBaixo()
     {
-        camera.transform.Rotate(0, 0, -90);
+       // camera.transform.Rotate(0, 0, -90);
     }
 }

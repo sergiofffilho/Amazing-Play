@@ -15,6 +15,7 @@ public class ControladorPlayer : MonoBehaviour
 	Vector2 secondClickPos;
 
     ControladorMenu controladorMenu;
+	ControladorPlataformas controladorPlataformas;
     Camera camera;
 
 	public static Swipe swipeDirection;
@@ -26,20 +27,26 @@ public class ControladorPlayer : MonoBehaviour
 	private float posicaoUp;
 	private float posicaoDown;
 
+	int colisaoPlat;
+
 	void Awake(){
 		velocity.x = 1;
 	}
 
 	void Start(){
+		colisaoPlat = 0;
+
 		posicaoUp = 0.14f;
 		posicaoDown = -0.14f;
 
-		velocidade = 0.33f;
+		velocidade = 2f;
         pontuacao = 0;
 
         
         controladorMenu = GetComponent < ControladorMenu > ();
         camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+
+		controladorPlataformas =  GameObject.FindGameObjectWithTag("controladorPlat").GetComponent<ControladorPlataformas>();
             
     }
 
@@ -143,6 +150,32 @@ public class ControladorPlayer : MonoBehaviour
                 return;
             }
         }
+
+		if (coll.gameObject.CompareTag ("fim")) {
+			colisaoPlat += 1;
+
+			if (colisaoPlat == 2) {
+				controladorPlataformas.ProceduralPlats ();
+				Destroy (coll.transform.parent.gameObject.transform.parent.gameObject);
+				colisaoPlat = 0;
+			}
+			
+		}
+			
+		if (coll.gameObject.CompareTag ("inicio")) {
+			
+			colisaoPlat += 1;
+
+			if (colisaoPlat == 2) {
+				controladorPlataformas.ProceduralPlats ();
+				Destroy (coll.transform.parent.gameObject.transform.parent.gameObject);
+				colisaoPlat = 0;
+			}
+		
+		}
+
+		Debug.Log (colisaoPlat);
+		
     }
 
 	public void calcularVelocidade(){
