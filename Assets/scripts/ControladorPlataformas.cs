@@ -3,274 +3,169 @@ using System.Collections;
 
 public class ControladorPlataformas : MonoBehaviour {
 
-	public Transform plataformaRetaHorizontal;
-	public Transform plataformaRetaVertical;
-	public Transform plataformaCimaDireita;
-	public Transform plataformaCimaEsquerda;
-	public Transform plataformaBaixaDireita;
-	public Transform plataformaBaixaEsquerda;
+	// Plataformasa a serem invocadas
+	public Transform plataformaDireita;
+	public Transform plataformaEsquerda;
+	public Transform plataformaCima;
+	public Transform plataformaBaixo;
 
+	// Posição de invocação das plataformas
 	float posicaoX;
 	float posicaoY;
-	float posicaoXcurva;
-	float posicaoYcurva;
-
+	float tamanhoPlataformaEmpe;
+	float tamanhoPlataformaDeitada;
+	// cria um player
 	ControladorPlayer controladorPlayer;
 
+	//variavel para salvar pos. player
 	Vector3 posicaoPlayer;
 
+	// direção da proxima plataforma invocada
 	int direcaoFuturaX;
 	int direcaoFuturaY;
 
 
 	void Start () {
-		posicaoX = 9.25f;
-		posicaoY = 8.2f;
-		posicaoXcurva = 7.9f;
-		posicaoYcurva = 9.25f;
+		//verificar: valores
+		tamanhoPlataformaEmpe = 4.4f;
+		tamanhoPlataformaDeitada = 10;
+		posicaoX = 5;
+		posicaoY = -0.2f;
 
+		//salva pos. plaer no vector3
 		controladorPlayer = GameObject.FindGameObjectWithTag ("Player").GetComponent<ControladorPlayer> ();
 		posicaoPlayer = controladorPlayer.getPosicaoPlayer ();
 
-		Instantiate (plataformaRetaHorizontal, new Vector3(posicaoPlayer.x, posicaoPlayer.y - 0.4f), Quaternion.identity);
+		Instantiate (plataformaDireita, new Vector3(posicaoX, posicaoY), Quaternion.identity);
 
-		InicializarPlataformas ();
+
+		//InicializarPlataformas ();
 
     }
 	
 	void Update () {
 		posicaoPlayer = controladorPlayer.getPosicaoPlayer ();
 	}
-
-	void OnTriggerEnter2D(Collider2D coll){
 		
-		 
-	}
+	public void InicializarPlataformas(){
 
-	void InicializarPlataformas(){
-		
 		int verificador = Random.Range (0, 100);
+		int verificadorAleatorio = Random.Range (25, 35);
 
-		if (verificador <= 33) {					
-			Instantiate (plataformaRetaHorizontal, new Vector3 (posicaoPlayer.x + posicaoX, posicaoPlayer.y - 0.4f), Quaternion.identity);
-			direcaoFuturaX = 1;
-			direcaoFuturaY = 0;
+		//Indo para direita
+		if (controladorPlayer.DirecaoX() == 1){
+			if (verificador <= verificadorAleatorio) {	
+				posicaoX = posicaoX + tamanhoPlataformaEmpe;
+				posicaoY = posicaoY + tamanhoPlataformaEmpe;
+				Instantiate (plataformaCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				direcaoFuturaX = 0;
+				direcaoFuturaY = 1;
+			}
+
+			if (verificador > verificadorAleatorio && verificador <= verificadorAleatorio + 40) {	
+				posicaoX = posicaoX + tamanhoPlataformaDeitada;	
+				Instantiate (plataformaDireita, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
+				direcaoFuturaX = 1;
+				direcaoFuturaY = 0;
+			}
+
+			if (verificador > verificadorAleatorio + 40) {
+				posicaoX = posicaoX + tamanhoPlataformaEmpe;
+				posicaoY = posicaoY - tamanhoPlataformaEmpe;
+				Instantiate (plataformaBaixo, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
+				direcaoFuturaX = 0;
+				direcaoFuturaY = -1;
+			}
 		}
 
-		if (verificador > 33 && verificador <= 66) {		
-			Instantiate (plataformaCimaEsquerda, new Vector3 (posicaoPlayer.x + posicaoX, posicaoPlayer.y - 0.4f), Quaternion.identity);
-			direcaoFuturaX = 0;
-			direcaoFuturaY = 1;
+		//Indo para esqueda
+		if (controladorPlayer.DirecaoX() == -1){
+
+			if (verificador <= verificadorAleatorio) {
+				posicaoX = posicaoX - tamanhoPlataformaEmpe;
+				posicaoY = posicaoY + tamanhoPlataformaEmpe;
+				Instantiate (plataformaCima, new Vector3 (posicaoX, posicaoY ), Quaternion.identity);
+				direcaoFuturaX = 0;
+				direcaoFuturaY = 1;
+			}
+
+			if (verificador > verificadorAleatorio && verificador <= verificadorAleatorio + 40) {	
+				posicaoX = posicaoX - tamanhoPlataformaDeitada;	
+				Instantiate (plataformaEsquerda, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
+				direcaoFuturaX = -1;
+				direcaoFuturaY = 0;
+			}
+
+			if (verificador > verificadorAleatorio + 40) {
+				posicaoX = posicaoX - tamanhoPlataformaEmpe;
+				posicaoY = posicaoY - tamanhoPlataformaEmpe;
+				Instantiate (plataformaBaixo, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
+				direcaoFuturaX = 0;
+				direcaoFuturaY = -1;
+			}
 		}
 
-		if (verificador > 66) {
-			Instantiate (plataformaBaixaDireita, new Vector3 (posicaoPlayer.x + posicaoX, posicaoPlayer.y - 0.4f), Quaternion.identity);
-			direcaoFuturaX = 0;
-			direcaoFuturaY = -1;
+		//Indo para cima
+		if (controladorPlayer.DirecaoY() == 1){
+
+			if (verificador <= verificadorAleatorio) {	
+				posicaoX = posicaoX - tamanhoPlataformaEmpe;
+				posicaoY = posicaoY + tamanhoPlataformaEmpe;
+				Instantiate (plataformaEsquerda, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
+				direcaoFuturaX = -1;
+				direcaoFuturaY = 0;
+			}
+
+			if (verificador > verificadorAleatorio && verificador <= verificadorAleatorio + 40) {		
+				posicaoY = posicaoY + tamanhoPlataformaDeitada;
+				Instantiate (plataformaCima, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
+				direcaoFuturaX = 0;
+				direcaoFuturaY = 1;
+			}
+
+			if (verificador > verificadorAleatorio + 40) {
+				posicaoX = posicaoX + tamanhoPlataformaEmpe;
+				posicaoY = posicaoY + tamanhoPlataformaEmpe;
+				Instantiate (plataformaDireita, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
+				direcaoFuturaX = 1;
+				direcaoFuturaY = 0;
+
+			}
+		}
+
+		//Indo para baixo
+		if (controladorPlayer.DirecaoY() == -1){
+
+			if (verificador <= verificadorAleatorio) {	
+				posicaoX = posicaoX - tamanhoPlataformaEmpe;
+				posicaoY = posicaoY - tamanhoPlataformaEmpe;
+				Instantiate (plataformaEsquerda, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
+				direcaoFuturaX = -1;
+				direcaoFuturaY = 0;
+			}
+
+			if (verificador > verificadorAleatorio && verificador <= verificadorAleatorio + 40) {
+				posicaoY = posicaoY - tamanhoPlataformaDeitada;
+				Instantiate (plataformaBaixo, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
+				direcaoFuturaX = 0;
+				direcaoFuturaY = -1;
+			}
+
+			if (verificador > verificadorAleatorio + 40) {
+				posicaoX = posicaoX + tamanhoPlataformaEmpe;
+				posicaoY = posicaoY - tamanhoPlataformaEmpe;
+				Instantiate (plataformaDireita, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
+				direcaoFuturaX = 1;
+				direcaoFuturaY = 0;
+			}
 		}
 
 	}
-
-	public void ProceduralPlats(){
 		
-		int verificador = 30;//Random.Range (0, 100);
 
-		int[] plataformas = new int[3];
-		plataformas = GetPlataforma();
-
-		if (verificador <= 33) {			
-			if (plataformas [0] == 1) {
-				if (direcaoFuturaX == 1 && direcaoFuturaX == controladorPlayer.DirecaoX()) {
-					Instantiate (plataformaRetaHorizontal, new Vector3 (posicaoPlayer.x + posicaoX + 1.8f, posicaoPlayer.y - 0.4f), Quaternion.identity);
-					direcaoFuturaX = 1;
-					direcaoFuturaY = 0;
-				}
-
-				if (direcaoFuturaX == 1 && direcaoFuturaX != controladorPlayer.DirecaoX()) {
-					Instantiate (plataformaRetaHorizontal, new Vector3 (posicaoPlayer.x + posicaoX + 1.8f, posicaoPlayer.y - 0.4f + posicaoY), Quaternion.identity);
-					direcaoFuturaX = 1;
-					direcaoFuturaY = 0;
-				}
-
-				if (direcaoFuturaX == -1 && direcaoFuturaX == controladorPlayer.DirecaoX()) {
-					Instantiate (plataformaRetaHorizontal, new Vector3 (posicaoPlayer.x - (posicaoX * 2) - 2, posicaoPlayer.y - 0.4f), Quaternion.identity);
-					direcaoFuturaX = -1;
-					direcaoFuturaY = 0;
-				}
-
-				if (direcaoFuturaX == -1 && direcaoFuturaX != controladorPlayer.DirecaoX()) {
-					Instantiate (plataformaRetaHorizontal, new Vector3 (posicaoPlayer.x - (posicaoX * 2) - 2, posicaoPlayer.y - 0.4f - posicaoY), Quaternion.identity);
-					direcaoFuturaX = -1;
-					direcaoFuturaY = 0;
-				}
-					
-			}
-
-			if (plataformas [0] == 2) {
-				if (direcaoFuturaY == 1 && direcaoFuturaY == controladorPlayer.DirecaoY()) {
-					Instantiate (plataformaRetaVertical, new Vector3 (posicaoPlayer.x + 0.6f, posicaoPlayer.y + posicaoY + 2), Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = 1;
-				}
-				if (direcaoFuturaY == 1 && direcaoFuturaY != controladorPlayer.DirecaoY()) {
-					Instantiate (plataformaRetaVertical, new Vector3 (posicaoPlayer.x + posicaoX + 1, posicaoPlayer.y + posicaoY ), Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = 1;
-				}
-
-				if (direcaoFuturaY == -1 && direcaoFuturaY == controladorPlayer.DirecaoY()) {
-					Instantiate (plataformaRetaVertical, new Vector3 (posicaoPlayer.x , posicaoPlayer.y - (posicaoY*2) - 2), Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = -1;
-				}
-
-				if (direcaoFuturaY == -1 && direcaoFuturaY != controladorPlayer.DirecaoY()) {
-					Instantiate (plataformaRetaVertical, new Vector3 (posicaoPlayer.x + posicaoX + 0.8f, posicaoPlayer.y - (posicaoY*2) - 0.5f) , Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = -1;
-				}
-
-			}
-		}
-
-		if (verificador > 33 && verificador <= 66) {		
-			if (plataformas [1] == 3) {
-				if (direcaoFuturaX == 1 && direcaoFuturaX == controladorPlayer.DirecaoX() &&) {
-					Instantiate (plataformaCimaEsquerda, new Vector3 (posicaoPlayer.x + 0.6f, posicaoPlayer.y + posicaoY + 2), Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = 1;
-				}
-				if (direcaoFuturaX == 1 && direcaoFuturaX != controladorPlayer.DirecaoX()) {
-					Instantiate (plataformaCimaEsquerda, new Vector3 (posicaoPlayer.x + posicaoX + 1, posicaoPlayer.y + posicaoY ), Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = 1;
-				}
-
-				if (direcaoFuturaX == -1 && direcaoFuturaX == controladorPlayer.DirecaoX()) {
-					Instantiate (plataformaCimaEsquerda, new Vector3 (posicaoPlayer.x , posicaoPlayer.y - (posicaoY*2) - 2), Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = -1;
-				}
-
-				if (direcaoFuturaX == -1 && direcaoFuturaX != controladorPlayer.Direcao()) {
-					Instantiate (plataformaCimaEsquerda, new Vector3 (posicaoPlayer.x + posicaoX + 0.8f, posicaoPlayer.y - (posicaoY*2) - 0.5f) , Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = -1;
-				}
-
-			}
-
-			if (plataformas [1] == 4) {
-				if (direcaoFuturaY == 1 && direcaoFuturaY == controladorPlayer.DirecaoY()) {
-					Instantiate (plataformaCimaDireita, new Vector3 (posicaoPlayer.x + 0.6f, posicaoPlayer.y + posicaoY + 2), Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = 1;
-				}
-				if (direcaoFuturaY == 1 && direcaoFuturaY != controladorPlayer.DirecaoY()) {
-					Instantiate (plataformaCimaDireita, new Vector3 (posicaoPlayer.x + posicaoX + 1, posicaoPlayer.y + posicaoY ), Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = 1;
-				}
-
-				if (direcaoFuturaY == -1 && direcaoFuturaY == controladorPlayer.DirecaoY()) {
-					Instantiate (plataformaCimaDireita, new Vector3 (posicaoPlayer.x , posicaoPlayer.y - (posicaoY*2) - 2), Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = -1;
-				}
-
-				if (direcaoFuturaY == -1 && direcaoFuturaY != controladorPlayer.DirecaoY()) {
-					Instantiate (plataformaCimaDireita, new Vector3 (posicaoPlayer.x + posicaoX + 0.8f, posicaoPlayer.y - (posicaoY*2) - 0.5f) , Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = -1;
-				}
-			}
-
-			if (plataformas [1] == 5) {
-				if (direcaoFuturaY == 1 && direcaoFuturaY == controladorPlayer.DirecaoY()) {
-					Instantiate (plataformaBaixaEsquerda, new Vector3 (posicaoPlayer.x + 0.6f, posicaoPlayer.y + posicaoY + 2), Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = 1;
-				}
-				if (direcaoFuturaY == 1 && direcaoFuturaY != controladorPlayer.DirecaoY()) {
-					Instantiate (plataformaBaixaEsquerda, new Vector3 (posicaoPlayer.x + posicaoX + 1, posicaoPlayer.y + posicaoY ), Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = 1;
-				}
-
-				if (direcaoFuturaY == -1 && direcaoFuturaY == controladorPlayer.DirecaoY()) {
-					Instantiate (plataformaBaixaEsquerda, new Vector3 (posicaoPlayer.x , posicaoPlayer.y - (posicaoY*2) - 2), Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = -1;
-				}
-
-				if (direcaoFuturaY == -1 && direcaoFuturaY != controladorPlayer.DirecaoY()) {
-					Instantiate (plataformaBaixaEsquerda, new Vector3 (posicaoPlayer.x + posicaoX + 0.8f, posicaoPlayer.y - (posicaoY*2) - 0.5f) , Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = -1;
-				}
-			}
-		}
-
-		if (verificador > 66) {
-			if (plataformas [2] == 4) {
-				if (direcaoFuturaY == 1 && direcaoFuturaY == controladorPlayer.DirecaoY()) {
-					Instantiate (plataformaBaixaEsquerda, new Vector3 (posicaoPlayer.x + 0.6f, posicaoPlayer.y + posicaoY + 2), Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = 1;
-				}
-				if (direcaoFuturaY == 1 && direcaoFuturaY != controladorPlayer.DirecaoY()) {
-					Instantiate (plataformaBaixaEsquerda, new Vector3 (posicaoPlayer.x + posicaoX + 1, posicaoPlayer.y + posicaoY ), Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = 1;
-				}
-
-				if (direcaoFuturaY == -1 && direcaoFuturaY == controladorPlayer.DirecaoY()) {
-					Instantiate (plataformaBaixaEsquerda, new Vector3 (posicaoPlayer.x , posicaoPlayer.y - (posicaoY*2) - 2), Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = -1;
-				}
-
-				if (direcaoFuturaY == -1 && direcaoFuturaY != controladorPlayer.DirecaoY()) {
-					Instantiate (plataformaBaixaEsquerda, new Vector3 (posicaoPlayer.x + posicaoX + 0.8f, posicaoPlayer.y - (posicaoY*2) - 0.5f) , Quaternion.identity);
-					direcaoFuturaX = 0;
-					direcaoFuturaY = -1;
-				}
-			}
-
-			if (plataformas [2] == 5) {
-
-			}
-
-			if (plataformas [2] == 6) {
-
-			}
-		}
-
-	}
-
-	int[] GetPlataforma(){
-
-		if (direcaoFuturaX == 1) {
-			int[] plats = new int[3] { 1, 3, 6 };
-			return plats;
-		}
-
-		if (direcaoFuturaX == -1) {
-			int[] plats = new int[3] { 1, 4, 5 };
-			return plats;
-		}
-
-		if (direcaoFuturaY == 1) {
-			int[] plats = new int[3] { 2, 5, 6 };
-			return plats;
-		}
-
-		if (direcaoFuturaY == -1) {
-			int[] plats = new int[3] { 2, 3, 4 };
-			return plats;
-		}
-
-		return null;
+	void OnTriggerEnter2D(Collider2D coll)
+	{			
+		
 	}
 
 }

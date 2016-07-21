@@ -5,18 +5,21 @@ public enum Swipe { None, Up, Down, Left, Right };
 
 public class ControladorPlayer : MonoBehaviour
 {
+	// tempo de duração do Swipe 
 	public float minSwipeLength = 5f;
 
+	// Swipe
 	Vector2 firstPressPos;
 	Vector2 secondPressPos;
 	Vector2 currentSwipe;
-
 	Vector2 firstClickPos;
 	Vector2 secondClickPos;
 
     ControladorMenu controladorMenu;
+
 	ControladorPlataformas controladorPlataformas;
-    Camera camera;
+    
+	Camera camera;
 
 	public static Swipe swipeDirection;
 
@@ -36,9 +39,11 @@ public class ControladorPlayer : MonoBehaviour
 	void Start(){
 		colisaoPlat = 0;
 
+		// sitar pos. swipe
 		posicaoUp = 0.14f;
 		posicaoDown = -0.14f;
 
+		//velocidade, pontuação player inicial;
 		velocidade = 2f;
         pontuacao = 0;
 
@@ -72,110 +77,122 @@ public class ControladorPlayer : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        
-        /*if(coll.gameObject.CompareTag ("platT"))
-        {            
-            if (pontuacao > controladorMenu.GetRecord())
-            {
-                controladorMenu.SetRecorde(pontuacao);
-             }
-        }*/
-
+		
+       
         if (coll.gameObject.CompareTag("platCima")) {
-                  
-            if (DirecaoX() == 1 && DirecaoY() == 0)
-            {                
-                camera.VirarCima();
-                velocity.y = velocity.x;
-                velocity.x = 0;
-                return;
-            }
 
-            if (DirecaoX() == -1 && DirecaoY() == 0)
-            {
-                camera.VirarBaixo();
-                velocity.y = velocity.x;
-                velocity.x = 0;
-                return;
-            }
+			if (DirecaoY () == 0 && DirecaoX() == 1) {
+				velocity.y = velocity.x;
+				velocity.x = 0;
 
-            if (DirecaoX() == 0 && DirecaoY() == 1)
-            {
-                camera.VirarBaixo();
-                velocity.x = velocity.y;
-                velocity.y = 0;
-                return;
-            }
-
-            if (DirecaoX() == 0 && DirecaoY() == -1)
-            {
-                camera.VirarCima();
-                velocity.x = velocity.y;
-                velocity.y = 0;
-                return;
-            }
-
-        }
-        if (coll.gameObject.CompareTag("platBaixo"))
-        {
-            if (DirecaoX() == 1 && DirecaoY() == 0)
-            {
-                camera.VirarBaixo();
-                velocity.y = -velocity.x;
-                velocity.x = 0;
-                return;
-            }
-
-            if (DirecaoX() == -1 && DirecaoY() == 0)
-            {
-                camera.VirarCima();
-                velocity.y = -velocity.x;
-                velocity.x = 0;
-                return;
-            }
-
-            if (DirecaoX() == 0 && DirecaoY() == 1)
-            {
-                camera.VirarBaixo();
-                velocity.x = -velocity.y;
-                velocity.y = 0;
-                return;
-            }
-
-            if (DirecaoX() == 0 && DirecaoY() == -1)
-            {
-                camera.VirarCima();
-                velocity.x = -velocity.y;
-                velocity.y = 0;
-                return;
-            }
-        }
-
-		if (coll.gameObject.CompareTag ("fim")) {
-			colisaoPlat += 1;
-
-			if (colisaoPlat == 2) {
-				controladorPlataformas.ProceduralPlats ();
-				Destroy (coll.transform.parent.gameObject.transform.parent.gameObject);
-				colisaoPlat = 0;
 			}
-			
+			if (DirecaoY () == 0 && DirecaoX() == -1) {
+				velocity.y = -velocity.x;
+				velocity.x = 0;
+
+			}
+
+			controladorPlataformas.InicializarPlataformas();
+
+			//camera.VirarCima();
+			if (DirecaoX () == 1) {
+				velocity.y = velocity.x;
+				velocity.x = 0;
+				return;
+			}
+			if (DirecaoX () == -1) {
+				velocity.y = -velocity.x;
+				velocity.x = 0;
+				return;
+			}
+
+
 		}
-			
-		if (coll.gameObject.CompareTag ("inicio")) {
-			
-			colisaoPlat += 1;
-
-			if (colisaoPlat == 2) {
-				controladorPlataformas.ProceduralPlats ();
-				Destroy (coll.transform.parent.gameObject.transform.parent.gameObject);
-				colisaoPlat = 0;
+		if (coll.gameObject.CompareTag("platBaixo")){        
+				
+			if (DirecaoY () == 0 && DirecaoX() == 1) {
+				velocity.y = -velocity.x;
+				velocity.x = 0;
 			}
-		
+			if (DirecaoY () == 0 && DirecaoX() == -1) {
+				velocity.y = velocity.x;
+				velocity.x = 0;
+			}
+
+			controladorPlataformas.InicializarPlataformas();
+			
+			if (DirecaoX () == 1) {
+				velocity.y = -velocity.x;
+				velocity.x = 0;
+				return;
+			}
+			if (DirecaoX () == -1) {
+				velocity.y = velocity.x;
+				velocity.x = 0;
+				return;
+			}
+
 		}
 
-		Debug.Log (colisaoPlat);
-		
+		if (coll.gameObject.CompareTag("platDireita"))
+		{
+			if (DirecaoX () == 0 && DirecaoY() == 1) {
+				velocity.x = velocity.y;
+				velocity.y = 0;
+			}
+
+			if (DirecaoX () == 0 && DirecaoY() == -1) {
+				velocity.x = -velocity.y;
+				velocity.y = 0;
+			}
+
+			controladorPlataformas.InicializarPlataformas();
+
+			if (DirecaoY () == 1) {
+				velocity.x = velocity.y;
+				velocity.y = 0;
+				return;
+			}
+			if (DirecaoY () == -1) {
+				velocity.x = -velocity.y;
+				velocity.y = 0;
+				return;
+			}
+
+
+		}
+
+		if (coll.gameObject.CompareTag("platEsquerda"))
+		{
+
+			if (DirecaoX () == 0 && DirecaoY() == 1) {
+				velocity.x = -velocity.y;
+				velocity.y = 0;
+			}
+
+			if (DirecaoX () == 0 && DirecaoY() == -1) {
+				velocity.x = velocity.y;
+				velocity.y = 0;
+			}
+
+			controladorPlataformas.InicializarPlataformas();
+
+
+			if (DirecaoY () == 1) {
+				velocity.x = -velocity.y;
+				velocity.y = 0;
+				return;
+			}
+			if (DirecaoY () == -1) {
+				velocity.x = velocity.y;
+				velocity.y = 0;
+				return;
+			}
+
+
+		}
+
+
     }
 
 	public void calcularVelocidade(){
@@ -186,7 +203,6 @@ public class ControladorPlayer : MonoBehaviour
 		if (pontuacao > 4) {
 			if ((float)Math.Log (pontuacao, 2) % 2 == 0 || (float)Math.Log (pontuacao, 2) % 2 == 1) {
 				velocidade = (float)Math.Log (pontuacao, 2) ;
-				Debug.Log (velocidade);
 			}
 		}
 	
