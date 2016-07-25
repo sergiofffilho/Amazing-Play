@@ -16,6 +16,8 @@ public class ControladorPlataformas : MonoBehaviour {
 	float tamanhoPlataformaDeitada;
 	// cria um player
 	ControladorPlayer controladorPlayer;
+	ControladorLinha controladorLinha;
+
 
 	//variavel para salvar pos. player
 	Vector3 posicaoPlayer;
@@ -30,11 +32,13 @@ public class ControladorPlataformas : MonoBehaviour {
 		tamanhoPlataformaEmpe = 4.4f;
 		tamanhoPlataformaDeitada = 10;
 		posicaoX = 5;
-		posicaoY = -0.2f;
+		posicaoY = 1.3f;
 
 		//salva pos. plaer no vector3
 		controladorPlayer = GameObject.FindGameObjectWithTag ("Player").GetComponent<ControladorPlayer> ();
 		posicaoPlayer = controladorPlayer.getPosicaoPlayer ();
+
+//		controladorLinha = GameObject.FindGameObjectWithTag ("controladorLinha").GetComponent<ControladorLinha> ();
 
 		Instantiate (plataformaDireita, new Vector3(posicaoX, posicaoY), Quaternion.identity);
 
@@ -58,6 +62,8 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoX = posicaoX + tamanhoPlataformaEmpe;
 				posicaoY = posicaoY + tamanhoPlataformaEmpe;
 				Instantiate (plataformaCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+			//controladorLinha.setPositionLinha (plataformaCima.gameObject.transform.position);
+
 				direcaoFuturaX = 0;
 				direcaoFuturaY = 1;
 			}
@@ -65,6 +71,8 @@ public class ControladorPlataformas : MonoBehaviour {
 			if (verificador > verificadorAleatorio && verificador <= verificadorAleatorio + 40) {	
 				posicaoX = posicaoX + tamanhoPlataformaDeitada;	
 				Instantiate (plataformaDireita, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
+			//	controladorLinha.setPositionLinha (plataformaDireita.gameObject.transform.position);
+
 				direcaoFuturaX = 1;
 				direcaoFuturaY = 0;
 			}
@@ -73,6 +81,7 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoX = posicaoX + tamanhoPlataformaEmpe;
 				posicaoY = posicaoY - tamanhoPlataformaEmpe;
 				Instantiate (plataformaBaixo, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
+			//	controladorLinha.setPositionLinha (plataformaBaixo.gameObject.transform.position);
 				direcaoFuturaX = 0;
 				direcaoFuturaY = -1;
 			}
@@ -85,6 +94,7 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoX = posicaoX - tamanhoPlataformaEmpe;
 				posicaoY = posicaoY + tamanhoPlataformaEmpe;
 				Instantiate (plataformaCima, new Vector3 (posicaoX, posicaoY ), Quaternion.identity);
+				//controladorLinha.setPositionLinha (plataformaCima.gameObject.transform.position);
 				direcaoFuturaX = 0;
 				direcaoFuturaY = 1;
 			}
@@ -92,6 +102,7 @@ public class ControladorPlataformas : MonoBehaviour {
 			if (verificador > verificadorAleatorio && verificador <= verificadorAleatorio + 40) {	
 				posicaoX = posicaoX - tamanhoPlataformaDeitada;	
 				Instantiate (plataformaEsquerda, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
+				//controladorLinha.setPositionLinha (plataformaEsquerda.gameObject.transform.position);
 				direcaoFuturaX = -1;
 				direcaoFuturaY = 0;
 			}
@@ -100,6 +111,8 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoX = posicaoX - tamanhoPlataformaEmpe;
 				posicaoY = posicaoY - tamanhoPlataformaEmpe;
 				Instantiate (plataformaBaixo, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
+				//controladorLinha.setPositionLinha (plataformaBaixo.gameObject.transform.position);
+
 				direcaoFuturaX = 0;
 				direcaoFuturaY = -1;
 			}
@@ -112,6 +125,8 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoX = posicaoX - tamanhoPlataformaEmpe;
 				posicaoY = posicaoY + tamanhoPlataformaEmpe;
 				Instantiate (plataformaEsquerda, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
+				//controladorLinha.setPositionLinha (plataformaEsquerda.gameObject.transform.position);
+
 				direcaoFuturaX = -1;
 				direcaoFuturaY = 0;
 			}
@@ -119,6 +134,7 @@ public class ControladorPlataformas : MonoBehaviour {
 			if (verificador > verificadorAleatorio && verificador <= verificadorAleatorio + 40) {		
 				posicaoY = posicaoY + tamanhoPlataformaDeitada;
 				Instantiate (plataformaCima, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
+				//controladorLinha.setPositionLinha (plataformaCima.gameObject.transform.position);
 				direcaoFuturaX = 0;
 				direcaoFuturaY = 1;
 			}
@@ -127,6 +143,7 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoX = posicaoX + tamanhoPlataformaEmpe;
 				posicaoY = posicaoY + tamanhoPlataformaEmpe;
 				Instantiate (plataformaDireita, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
+				//controladorLinha.setPositionLinha (plataformaDireita.gameObject.transform.position);
 				direcaoFuturaX = 1;
 				direcaoFuturaY = 0;
 
@@ -140,6 +157,7 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoX = posicaoX - tamanhoPlataformaEmpe;
 				posicaoY = posicaoY - tamanhoPlataformaEmpe;
 				Instantiate (plataformaEsquerda, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
+				//controladorLinha.setPositionLinha (plataformaEsquerda.gameObject.transform.position);
 				direcaoFuturaX = -1;
 				direcaoFuturaY = 0;
 			}
@@ -147,6 +165,8 @@ public class ControladorPlataformas : MonoBehaviour {
 			if (verificador > verificadorAleatorio && verificador <= verificadorAleatorio + 40) {
 				posicaoY = posicaoY - tamanhoPlataformaDeitada;
 				Instantiate (plataformaBaixo, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
+				//controladorLinha.setPositionLinha (plataformaBaixo.gameObject.transform.position);
+
 				direcaoFuturaX = 0;
 				direcaoFuturaY = -1;
 			}
@@ -155,6 +175,8 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoX = posicaoX + tamanhoPlataformaEmpe;
 				posicaoY = posicaoY - tamanhoPlataformaEmpe;
 				Instantiate (plataformaDireita, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
+				//controladorLinha.setPositionLinha (plataformaDireita.gameObject.transform.position);
+
 				direcaoFuturaX = 1;
 				direcaoFuturaY = 0;
 			}

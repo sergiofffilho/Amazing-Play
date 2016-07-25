@@ -18,6 +18,7 @@ public class ControladorPlayer : MonoBehaviour
     ControladorMenu controladorMenu;
 
 	ControladorPlataformas controladorPlataformas;
+
     
 	Camera camera;
 
@@ -25,7 +26,7 @@ public class ControladorPlayer : MonoBehaviour
 
 	public float velocidade;
     Vector3 velocity;
-	public int pontuacao;
+	public float pontuacao;
 
 	private float posicaoUp;
 	private float posicaoDown;
@@ -57,11 +58,13 @@ public class ControladorPlayer : MonoBehaviour
 
 	void Update ()
 	{
-
+		calcularPontuacao ();
         transform.Translate(velocity * velocidade * Time.deltaTime);
 
 		calcularVelocidade();
 		DetectSwipe();
+
+
 	}
 
     public int DirecaoX()
@@ -78,7 +81,12 @@ public class ControladorPlayer : MonoBehaviour
     void OnTriggerEnter2D(Collider2D coll)
     {
 		
-       
+		if (coll.gameObject.CompareTag ("Morte")) {
+			Destroy (gameObject);
+		
+		}
+
+
         if (coll.gameObject.CompareTag("platCima")) {
 
 			if (DirecaoY () == 0 && DirecaoX() == 1) {
@@ -91,7 +99,7 @@ public class ControladorPlayer : MonoBehaviour
 				velocity.x = 0;
 
 			}
-
+				
 			controladorPlataformas.InicializarPlataformas();
 
 			//camera.VirarCima();
@@ -120,7 +128,7 @@ public class ControladorPlayer : MonoBehaviour
 			}
 
 			controladorPlataformas.InicializarPlataformas();
-			
+
 			if (DirecaoX () == 1) {
 				velocity.y = -velocity.x;
 				velocity.x = 0;
@@ -147,6 +155,7 @@ public class ControladorPlayer : MonoBehaviour
 			}
 
 			controladorPlataformas.InicializarPlataformas();
+		
 
 			if (DirecaoY () == 1) {
 				velocity.x = velocity.y;
@@ -194,16 +203,22 @@ public class ControladorPlayer : MonoBehaviour
 
 
     }
+	void  calcularPontuacao(){
+		float porcentagem;
+		float aumento = 1;
+
+		aumento= aumento + 1;
+		pontuacao = aumento + pontuacao;
+
+
+	}
 
 	public void calcularVelocidade(){
-		if (pontuacao == 4) {
-			velocidade = 0.66f;
-		}
-
-		if (pontuacao > 4) {
+		
 			if ((float)Math.Log (pontuacao, 2) % 2 == 0 || (float)Math.Log (pontuacao, 2) % 2 == 1) {
 				velocidade = (float)Math.Log (pontuacao, 2) ;
-			}
+
+
 		}
 	
 	}
@@ -232,11 +247,26 @@ public class ControladorPlayer : MonoBehaviour
 				// Swipe up
 				if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
 					swipeDirection = Swipe.Up;
+				}
 
 				// Swipe down
-				} else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
+				 else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
 					swipeDirection = Swipe.Down;
-				}	 
+				}
+
+				// Swipe left
+				else if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
+					swipeDirection = Swipe.Left;
+					Debug.Log ("Swiped LEFT");
+
+				}
+				// Swipe right
+				else if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
+					swipeDirection = Swipe.Right;
+					Debug.Log ("Swiped RIGHT");
+
+				}
+			
 			}
 
 		} else {
@@ -261,49 +291,51 @@ public class ControladorPlayer : MonoBehaviour
 				currentSwipe.Normalize();
 
 				//Swipe directional check
-				// Swipe up
-                if(DirecaoX() == 1) { 
+                if(DirecaoX() != 0) { 
+					// Swipe up
 				    if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
 					    swipeDirection = Swipe.Up;
-					    transform.position = new Vector2 (transform.position.x, transform.position.y + 0.8f);
+					    transform.position = new Vector2 (transform.position.x, transform.position.y + 0.87f);
 					    Debug.Log ("Up");
 
 				    // Swipe down
 				    } else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
 					    swipeDirection = Swipe.Down;
-					    transform.position = new Vector2 (transform.position.x, transform.position.y - 0.8f);
+					    transform.position = new Vector2 (transform.position.x, transform.position.y - 0.87f);
 					    Debug.Log ("Down");
 
 				    }
+
+
                 }
-                if(DirecaoY() == 1) {
-                    if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
-                    {
-                        swipeDirection = Swipe.Up;
-                        transform.position = new Vector2(transform.position.x - 0.8f, transform.position.y);
-                        Debug.Log("Up");
+                if(DirecaoY() != 0) {
+					// Swipe left
+					if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
+						swipeDirection = Swipe.Left;
+						transform.position = new Vector2 (transform.position.x - 0.87f, transform.position.y );
+						Debug.Log ("Swiped LEFT");
 
-                        // Swipe down
-                    }
-                    else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
-                    {
-                        swipeDirection = Swipe.Down;
-                        transform.position = new Vector2(transform.position.x + 0.8f, transform.position.y);
-                        Debug.Log("Down");
+					}
+					// Swipe right
+					else if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
+						swipeDirection = Swipe.Right;
+						transform.position = new Vector2 (transform.position.x + 0.87f, transform.position.y);
+						Debug.Log ("Swiped RIGHT");
 
-                    }
+					}
                 }
 
-                if (DirecaoX() == -1)
+				/*if (DirecaoX() == -1)
                 {
+					//Swipe up
                     if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
                     {
                         swipeDirection = Swipe.Up;
                         transform.position = new Vector2(transform.position.x, transform.position.y + 0.8f);
-                        Debug.Log("Up");
-
-                        // Swipe down
+                        Debug.Log("Up");                        
                     }
+
+					// Swipe down
                     else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
                     {
                         swipeDirection = Swipe.Down;
@@ -311,25 +343,24 @@ public class ControladorPlayer : MonoBehaviour
                         Debug.Log("Down");
 
                     }
-                }
-                if (DirecaoY() == -1)
+                }*/
+                /*if (DirecaoY() == -1)
                 {
-                    if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
-                    {
-                        swipeDirection = Swipe.Up;
-                        transform.position = new Vector2(transform.position.x +0.8f, transform.position.y );
-                        Debug.Log("Up");
+					// Swipe left
+					if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
+						swipeDirection = Swipe.Left;
+						transform.position = new Vector2 (transform.position.x - 0.8f, transform.position.y );
+						Debug.Log ("Swiped LEFT");
 
-                        // Swipe down
-                    }
-                    else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
-                    {
-                        swipeDirection = Swipe.Down;
-                        transform.position = new Vector2(transform.position.x - 0.8f, transform.position.y );
-                        Debug.Log("Down");
+					}
+					// Swipe right
+					else if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
+						swipeDirection = Swipe.Right;
+						transform.position = new Vector2 (transform.position.x + 0.8f, transform.position.y );
+						Debug.Log ("Swiped RIGHT");
 
-                    }
-                }
+					}
+                }*/
             }
 
 		}
