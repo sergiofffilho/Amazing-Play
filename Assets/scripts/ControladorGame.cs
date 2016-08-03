@@ -1,20 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
-public class ControladorGame : MonoBehaviour {
-    public int pontosAtual;
+public class ControladorGameMenu : MonoBehaviour {
+
+
+	Text textRecorde;
+
 	// Use this for initialization
 	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
 
+		textRecorde = GameObject.FindGameObjectWithTag ("Recorde").GetComponent<Text> ();
 
-	}
-
-    public int GetPontos() {
-        return pontosAtual;
-    }
-    
+		textRecorde.text = PlayerPrefs.GetFloat ("Pontuacao").ToString();
+	}    
 }

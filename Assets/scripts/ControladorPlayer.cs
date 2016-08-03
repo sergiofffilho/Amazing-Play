@@ -25,11 +25,10 @@ public class ControladorPlayer : MonoBehaviour
 	public static Swipe swipeDirection;
 
 	public float velocidade;
-    Vector3 velocity;
+    public Vector3 velocity;
 	public float pontuacao;
 
-	private float posicaoUp;
-	private float posicaoDown;
+	private float posicaoSwipe;
 
 	int colisaoPlat;
 
@@ -41,8 +40,7 @@ public class ControladorPlayer : MonoBehaviour
 		colisaoPlat = 0;
 
 		// sitar pos. swipe
-		posicaoUp = 0.14f;
-		posicaoDown = -0.14f;
+		posicaoSwipe = 0.8f;
 
 		//velocidade, pontuação player inicial;
 		velocidade = 2f;
@@ -53,6 +51,8 @@ public class ControladorPlayer : MonoBehaviour
         camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 
 		controladorPlataformas =  GameObject.FindGameObjectWithTag("controladorPlat").GetComponent<ControladorPlataformas>();
+
+		Debug.Log (PlayerPrefs.GetFloat ("Pontuacao"));
             
     }
 
@@ -82,8 +82,11 @@ public class ControladorPlayer : MonoBehaviour
     {
 		
 		if (coll.gameObject.CompareTag ("Morte")) {
+			if (pontuacao > PlayerPrefs.GetFloat ("Pontuacao")) {
+				PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
+			}
 			Destroy (gameObject);
-		
+			
 		}
 
 
@@ -201,6 +204,14 @@ public class ControladorPlayer : MonoBehaviour
 
 		}
 
+		//Atualizar para GAME OVER
+		if (coll.gameObject.CompareTag ("T")) {
+			if (pontuacao > PlayerPrefs.GetFloat ("Pontuacao")) {
+				PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
+			}
+			Destroy (gameObject);
+		}
+
 
     }
 	void  calcularPontuacao(){
@@ -209,7 +220,6 @@ public class ControladorPlayer : MonoBehaviour
 
 		aumento= aumento + 1;
 		pontuacao = aumento + pontuacao;
-
 
 	}
 
@@ -295,13 +305,13 @@ public class ControladorPlayer : MonoBehaviour
 					// Swipe up
 				    if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
 					    swipeDirection = Swipe.Up;
-					    transform.position = new Vector2 (transform.position.x, transform.position.y + 0.87f);
+						transform.position = new Vector2 (transform.position.x, transform.position.y + posicaoSwipe);
 					    Debug.Log ("Up");
 
 				    // Swipe down
 				    } else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
 					    swipeDirection = Swipe.Down;
-					    transform.position = new Vector2 (transform.position.x, transform.position.y - 0.87f);
+						transform.position = new Vector2 (transform.position.x, transform.position.y - posicaoSwipe);
 					    Debug.Log ("Down");
 
 				    }
@@ -312,14 +322,14 @@ public class ControladorPlayer : MonoBehaviour
 					// Swipe left
 					if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
 						swipeDirection = Swipe.Left;
-						transform.position = new Vector2 (transform.position.x - 0.87f, transform.position.y );
+						transform.position = new Vector2 (transform.position.x - posicaoSwipe, transform.position.y );
 						Debug.Log ("Swiped LEFT");
 
 					}
 					// Swipe right
 					else if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
 						swipeDirection = Swipe.Right;
-						transform.position = new Vector2 (transform.position.x + 0.87f, transform.position.y);
+						transform.position = new Vector2 (transform.position.x + posicaoSwipe, transform.position.y);
 						Debug.Log ("Swiped RIGHT");
 
 					}
