@@ -19,8 +19,6 @@ public class ControladorGameGameOver : MonoBehaviour {
 
 		//PlayerPrefs.SetFloat ("Recorde",0);
 
-		Debug.Log (PlayerPrefs.GetFloat ("Pontuacao"));
-		Debug.Log (PlayerPrefs.GetFloat ("Recorde"));
 
 		if (PlayerPrefs.GetFloat ("Pontuacao") >= PlayerPrefs.GetFloat ("Recorde")) {
 			RecordeLigado.SetActive(true);

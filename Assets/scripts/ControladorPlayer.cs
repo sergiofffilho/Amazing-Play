@@ -18,7 +18,8 @@ public class ControladorPlayer : MonoBehaviour
     ControladorMenu controladorMenu;
 	ControladorPlataformas controladorPlataformas;
 	ControladorAudio controladorAudio;
-    
+	ControladorMorte controladorMorte;
+
 	Camera camera;
 
 	public static Swipe swipeDirection;
@@ -52,7 +53,7 @@ public class ControladorPlayer : MonoBehaviour
 		controladorPlataformas =  GameObject.FindGameObjectWithTag("controladorPlat").GetComponent<ControladorPlataformas>();
 
 		controladorAudio = GameObject.FindGameObjectWithTag ("Audio").GetComponent<ControladorAudio> ();
-
+		controladorMorte =  GameObject.FindGameObjectWithTag ("Morte").GetComponent<ControladorMorte> ();
             
     }
 
@@ -63,6 +64,8 @@ public class ControladorPlayer : MonoBehaviour
 
 		calcularVelocidade();
 		DetectSwipe();
+
+		gameOver ();
 
 
 	}
@@ -80,21 +83,6 @@ public class ControladorPlayer : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-		
-		if (coll.gameObject.CompareTag ("Morte")) {
-			
-			PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
-
-			if (pontuacao > PlayerPrefs.GetFloat ("Recorde")) {
-				PlayerPrefs.SetFloat ("Recorde", pontuacao);
-			}
-
-			controladorAudio.playGameOver ();
-			Application.LoadLevel (2);
-			//Destroy (gameObject);
-			
-		}
-
 		//Atualizar para GAME OVER
 		if (coll.gameObject.CompareTag ("T")) {
 
@@ -124,6 +112,7 @@ public class ControladorPlayer : MonoBehaviour
 			}
 				
 			controladorPlataformas.InicializarPlataformas();
+			controladorMorte.AtualizarPosição (gameObject.transform.position);
 
 			//camera.VirarCima();
 			if (DirecaoX () == 1) {
@@ -151,6 +140,7 @@ public class ControladorPlayer : MonoBehaviour
 			}
 
 			controladorPlataformas.InicializarPlataformas();
+			controladorMorte.AtualizarPosição (gameObject.transform.position);
 
 			if (DirecaoX () == 1) {
 				velocity.y = -velocity.x;
@@ -178,6 +168,7 @@ public class ControladorPlayer : MonoBehaviour
 			}
 
 			controladorPlataformas.InicializarPlataformas();
+			controladorMorte.AtualizarPosição (gameObject.transform.position);
 		
 
 			if (DirecaoY () == 1) {
@@ -208,6 +199,7 @@ public class ControladorPlayer : MonoBehaviour
 			}
 
 			controladorPlataformas.InicializarPlataformas();
+			controladorMorte.AtualizarPosição (gameObject.transform.position);
 
 
 			if (DirecaoY () == 1) {
@@ -395,5 +387,18 @@ public class ControladorPlayer : MonoBehaviour
 
 	public Vector3 getPosicaoPlayer(){
 		return gameObject.transform.position;
+	}
+
+	void gameOver(){
+		if (Vector3.Distance(gameObject.transform.position, controladorMorte.gameObject.transform.position) > 20){	
+			PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
+
+			if (pontuacao > PlayerPrefs.GetFloat ("Recorde")) {
+				PlayerPrefs.SetFloat ("Recorde", pontuacao);
+			}
+
+			controladorAudio.playGameOver ();
+			Application.LoadLevel (2);
+		}
 	}
 }
