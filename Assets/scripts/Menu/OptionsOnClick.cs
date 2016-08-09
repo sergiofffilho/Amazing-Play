@@ -10,19 +10,35 @@ public class OptionsOnClick : MonoBehaviour {
 	public GameObject recordeDesligado;
 
 
-	public int ligado = 1;
+	void Start(){
+		if (PlayerPrefs.GetInt ("mute") == 1) {
+			audioImaegeLigado.SetActive(false);
+			audioImaegeDesligado.SetActive(true);
+		}
+		if (PlayerPrefs.GetInt ("mute") == 0) {
+			audioImaegeLigado.SetActive (true);
+			audioImaegeDesligado.SetActive (false);
+		}
+	}
 
     public void LoadClick(int test)
     {
-		ligado = test;
+		
+		test = PlayerPrefs.GetInt ("mute");
+		Debug.Log(PlayerPrefs.GetInt("mute"));
+
 		if (test == 1)
-        {			
-            audioImaegeLigado.SetActive(true);
-            audioImaegeDesligado.SetActive(false);
+		{	
+			 
+			audioImaegeLigado.SetActive (true);
+			audioImaegeDesligado.SetActive (false);
+			PlayerPrefs.SetInt ("mute", 0);
+
         }
-        if (test == 2) {			
+        if (test == 0) {			
             audioImaegeLigado.SetActive(false);
             audioImaegeDesligado.SetActive(true);
+			PlayerPrefs.SetInt ("mute", 1);
         }
     }
 

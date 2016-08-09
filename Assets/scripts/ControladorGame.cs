@@ -12,6 +12,6 @@ public class ControladorGameMenu : MonoBehaviour {
 
 		textRecorde = GameObject.FindGameObjectWithTag ("Recorde").GetComponent<Text> ();
 
-		textRecorde.text = PlayerPrefs.GetFloat ("Pontuacao").ToString();
+		textRecorde.text = PlayerPrefs.GetFloat ("Recorde").ToString();
 	}    
 }

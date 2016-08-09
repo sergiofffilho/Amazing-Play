@@ -16,9 +16,8 @@ public class ControladorPlayer : MonoBehaviour
 	Vector2 secondClickPos;
 
     ControladorMenu controladorMenu;
-
 	ControladorPlataformas controladorPlataformas;
-
+	ControladorAudio controladorAudio;
     
 	Camera camera;
 
@@ -52,7 +51,8 @@ public class ControladorPlayer : MonoBehaviour
 
 		controladorPlataformas =  GameObject.FindGameObjectWithTag("controladorPlat").GetComponent<ControladorPlataformas>();
 
-		Debug.Log (PlayerPrefs.GetFloat ("Pontuacao"));
+		controladorAudio = GameObject.FindGameObjectWithTag ("Audio").GetComponent<ControladorAudio> ();
+
             
     }
 
@@ -82,11 +82,31 @@ public class ControladorPlayer : MonoBehaviour
     {
 		
 		if (coll.gameObject.CompareTag ("Morte")) {
+			
+			PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
+
+			if (pontuacao > PlayerPrefs.GetFloat ("Recorde")) {
+				PlayerPrefs.SetFloat ("Recorde", pontuacao);
+			}
+
+			controladorAudio.playGameOver ();
+			Application.LoadLevel (2);
+			//Destroy (gameObject);
+			
+		}
+
+		//Atualizar para GAME OVER
+		if (coll.gameObject.CompareTag ("T")) {
+
+			PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
 			if (pontuacao > PlayerPrefs.GetFloat ("Pontuacao")) {
 				PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
 			}
-			Destroy (gameObject);
-			
+
+			controladorAudio.playGameOver ();
+
+			Application.LoadLevel (2);
+			//Destroy (gameObject);
 		}
 
 
@@ -204,13 +224,7 @@ public class ControladorPlayer : MonoBehaviour
 
 		}
 
-		//Atualizar para GAME OVER
-		if (coll.gameObject.CompareTag ("T")) {
-			if (pontuacao > PlayerPrefs.GetFloat ("Pontuacao")) {
-				PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
-			}
-			Destroy (gameObject);
-		}
+
 
 
     }
@@ -306,13 +320,14 @@ public class ControladorPlayer : MonoBehaviour
 				    if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
 					    swipeDirection = Swipe.Up;
 						transform.position = new Vector2 (transform.position.x, transform.position.y + posicaoSwipe);
-					    Debug.Log ("Up");
+						controladorAudio.playMove ();
 
 				    // Swipe down
 				    } else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
 					    swipeDirection = Swipe.Down;
 						transform.position = new Vector2 (transform.position.x, transform.position.y - posicaoSwipe);
-					    Debug.Log ("Down");
+						controladorAudio.playMove ();
+					    
 
 				    }
 
@@ -323,14 +338,16 @@ public class ControladorPlayer : MonoBehaviour
 					if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
 						swipeDirection = Swipe.Left;
 						transform.position = new Vector2 (transform.position.x - posicaoSwipe, transform.position.y );
-						Debug.Log ("Swiped LEFT");
+						controladorAudio.playMove ();
+
 
 					}
 					// Swipe right
 					else if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
 						swipeDirection = Swipe.Right;
 						transform.position = new Vector2 (transform.position.x + posicaoSwipe, transform.position.y);
-						Debug.Log ("Swiped RIGHT");
+						controladorAudio.playMove ();
+
 
 					}
                 }
