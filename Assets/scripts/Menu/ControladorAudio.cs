@@ -12,7 +12,7 @@ public class ControladorAudio : MonoBehaviour {
 	public AudioSource pingo;
 	public AudioSource move;
 
-	bool derrota;
+	public bool derrota;
 
 	// Use this for initialization
 	void Start () {
@@ -62,9 +62,14 @@ public class ControladorAudio : MonoBehaviour {
 
 	public void playPingo(){
 		pingo.Play ();
+
 	}
 
 	public void playMove(){
 		move.Play ();
+	}
+
+	public void playGame(){
+		game.Play ();
 	}
 }

@@ -12,7 +12,6 @@ public class PlataformaTDestroy : MonoBehaviour {
 	void Update (){
 		
 		if (Vector2.Distance (transform.position, controladorPlayer.transform.position) > 11) {
-			Debug.Log ("xd");
 			Destroy (gameObject);
 		}
 	}

@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System;
-
+using UnityEngine.SceneManagement;
 public enum Swipe { None, Up, Down, Left, Right };
 
 public class ControladorPlayer : MonoBehaviour
 {
 	// tempo de duração do Swipe 
 	public float minSwipeLength = 5f;
-
 	// Swipe
 	Vector2 firstPressPos;
 	Vector2 secondPressPos;
@@ -28,9 +27,13 @@ public class ControladorPlayer : MonoBehaviour
     public Vector3 velocity;
 	public float pontuacao;
 
+	ParticleSystem particula;
+
 	private float posicaoSwipe;
 
 	int colisaoPlat;
+
+	bool isAlive;
 
 	void Awake(){
 		velocity.x = 1;
@@ -47,25 +50,31 @@ public class ControladorPlayer : MonoBehaviour
         pontuacao = 0;
 
         
-        controladorMenu = GetComponent < ControladorMenu > ();
+		particula = GameObject.FindGameObjectWithTag ("controladorLinha").GetComponent<ParticleSystem> ();
+      
+		controladorMenu = GetComponent < ControladorMenu > ();
         camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 
 		controladorPlataformas =  GameObject.FindGameObjectWithTag("controladorPlat").GetComponent<ControladorPlataformas>();
 
 		controladorAudio = GameObject.FindGameObjectWithTag ("Audio").GetComponent<ControladorAudio> ();
 		controladorMorte =  GameObject.FindGameObjectWithTag ("Morte").GetComponent<ControladorMorte> ();
+
+		isAlive = true;
             
     }
 
 	void Update ()
 	{
-		calcularPontuacao ();
-        transform.Translate(velocity * velocidade * Time.deltaTime);
+		if (getIsAlive()) {
+			calcularPontuacao ();
+			transform.Translate (velocity * velocidade * Time.deltaTime);
 
-		calcularVelocidade();
-		DetectSwipe();
+			calcularVelocidade ();
+			DetectSwipe ();
 
-		gameOver ();
+			gameOver ();
+		}
 
 
 	}
@@ -85,15 +94,21 @@ public class ControladorPlayer : MonoBehaviour
     {
 		//Atualizar para GAME OVER
 		if (coll.gameObject.CompareTag ("T")) {
-
+			
 			PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
 			if (pontuacao > PlayerPrefs.GetFloat ("Pontuacao")) {
 				PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
 			}
 
 			controladorAudio.playGameOver ();
+			Destroy (coll.gameObject);
 
-			Application.LoadLevel (2);
+			particula.maxParticles=0;
+
+			controladorMorte.AtualizarPosição (gameObject.transform.position);
+
+			isAlive = false;
+			SceneManager.LoadScene("GameOver",LoadSceneMode.Additive);
 			//Destroy (gameObject);
 		}
 
@@ -385,20 +400,44 @@ public class ControladorPlayer : MonoBehaviour
 		}
 	}
 
+
+
 	public Vector3 getPosicaoPlayer(){
 		return gameObject.transform.position;
 	}
 
 	void gameOver(){
-		if (Vector3.Distance(gameObject.transform.position, controladorMorte.gameObject.transform.position) > 20){	
-			PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
+		if(getIsAlive()){
+			
+			if (Vector3.Distance(gameObject.transform.position, controladorMorte.gameObject.transform.position) > 20){	
+				PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
 
-			if (pontuacao > PlayerPrefs.GetFloat ("Recorde")) {
-				PlayerPrefs.SetFloat ("Recorde", pontuacao);
+				if (pontuacao > PlayerPrefs.GetFloat ("Recorde")) {
+					PlayerPrefs.SetFloat ("Recorde", pontuacao);
+				}
+
+				controladorAudio.playGameOver ();
+
+				gameObject.transform.position = controladorMorte.gameObject.transform.position;
+
+				particula.maxParticles = 0;
+				//controladorMorte.AtualizarPosição (gameObject.transform.position);
+
+				SceneManager.LoadScene("GameOver",LoadSceneMode.Additive);
+								//	Application.LoadLevel (2);
+				isAlive = false;
 			}
-
-			controladorAudio.playGameOver ();
-			Application.LoadLevel (2);
 		}
+	}
+
+	public bool getIsAlive(){
+		return isAlive;
+	}
+
+	public void setIsAlive(bool isAlive){
+		this.isAlive = isAlive;
+		controladorPlataformas.continuePlataforma (controladorMorte.gameObject.transform.position);
+
+
 	}
 }

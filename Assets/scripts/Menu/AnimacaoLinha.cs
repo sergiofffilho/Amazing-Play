@@ -18,12 +18,13 @@ public class AnimacaoLinha : MonoBehaviour {
     }
 
     void Update () {
-		//float x = Mathf.Repeat (Time.time * scrollSpeed , 1);
-		float x = Mathf.Repeat (Time.time * controladorPlayer.velocity.x * 0.1f, 2);
-		float y = Mathf.Repeat (Time.time * controladorPlayer.velocity.y * 0.1f, 2);
-		Vector2 offset = new Vector2 (x, y);
-        renderer.sharedMaterial.SetTextureOffset ("_MainTex", offset);
-          
+		if (controladorPlayer.getIsAlive ()) {
+			//float x = Mathf.Repeat (Time.time * scrollSpeed , 1);
+			float x = Mathf.Repeat (Time.time * controladorPlayer.velocity.x * 0.1f, 2);
+			float y = Mathf.Repeat (Time.time * controladorPlayer.velocity.y * 0.1f, 2);
+			Vector2 offset = new Vector2 (x, y);
+			renderer.sharedMaterial.SetTextureOffset ("_MainTex", offset);
+		} 
     }
     
     void OnDisable () {
