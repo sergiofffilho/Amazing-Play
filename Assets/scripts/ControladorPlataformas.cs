@@ -40,7 +40,7 @@ public class ControladorPlataformas : MonoBehaviour {
 		//verificar: valores
 		tamanhoPlataformaEmpe = 4.4f;
 		tamanhoPlataformaDeitada =10;
-		posicaoX = 5;
+		posicaoX = 3;
 		posicaoY = 1.3f;
 
 

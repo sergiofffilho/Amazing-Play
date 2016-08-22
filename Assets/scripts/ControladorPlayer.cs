@@ -19,12 +19,16 @@ public class ControladorPlayer : MonoBehaviour
 	ControladorAudio controladorAudio;
 	ControladorMorte controladorMorte;
 
+	ControladorGravidade controladorGravidade;
+	public bool estado;
+
 	Camera camera;
 
 	public static Swipe swipeDirection;
 
 	public float velocidade;
     public Vector3 velocity;
+	public float gravidade;
 	public float pontuacao;
 
 	ParticleSystem particula;
@@ -40,6 +44,10 @@ public class ControladorPlayer : MonoBehaviour
 	}
 
 	void Start(){
+		gravidade = -5;
+
+		estado = true;
+
 		colisaoPlat = 0;
 
 		// sitar pos. swipe
@@ -59,18 +67,32 @@ public class ControladorPlayer : MonoBehaviour
 
 		controladorAudio = GameObject.FindGameObjectWithTag ("Audio").GetComponent<ControladorAudio> ();
 		controladorMorte =  GameObject.FindGameObjectWithTag ("Morte").GetComponent<ControladorMorte> ();
-
+		controladorGravidade =  GetComponent<ControladorGravidade>();
 		isAlive = true;
             
     }
 
 	void Update ()
 	{
+		
+
 		if (getIsAlive()) {
 			calcularPontuacao ();
 			transform.Translate (velocity * velocidade * Time.deltaTime);
+			Debug.Log (gravidade);
+			if (DirecaoX () != 0) {
 
+					transform.Translate (Vector3.up * gravidade * Time.deltaTime);
+				}
+
+			if (DirecaoY () != 0) {
+				transform.Translate (Vector3.right * gravidade * Time.deltaTime);
+
+			}
+			
 			calcularVelocidade ();
+
+
 			DetectSwipe ();
 
 			gameOver ();
@@ -116,16 +138,17 @@ public class ControladorPlayer : MonoBehaviour
         if (coll.gameObject.CompareTag("platCima")) {
 
 			if (DirecaoY () == 0 && DirecaoX() == 1) {
+				
 				velocity.y = velocity.x;
 				velocity.x = 0;
-
+				estado = false;
 			}
 			if (DirecaoY () == 0 && DirecaoX() == -1) {
 				velocity.y = -velocity.x;
 				velocity.x = 0;
-
+				estado = true;
 			}
-				
+
 			controladorPlataformas.InicializarPlataformas();
 			controladorMorte.AtualizarPosição (gameObject.transform.position);
 
@@ -140,7 +163,7 @@ public class ControladorPlayer : MonoBehaviour
 				velocity.x = 0;
 				return;
 			}
-
+			controladorGravidade.modificarGravidade (ref gravidade,DirecaoX(),DirecaoY(), estado);	
 
 		}
 		if (coll.gameObject.CompareTag("platBaixo")){        
@@ -148,10 +171,12 @@ public class ControladorPlayer : MonoBehaviour
 			if (DirecaoY () == 0 && DirecaoX() == 1) {
 				velocity.y = -velocity.x;
 				velocity.x = 0;
+				estado = false;
 			}
 			if (DirecaoY () == 0 && DirecaoX() == -1) {
 				velocity.y = velocity.x;
 				velocity.x = 0;
+				estado = true;
 			}
 
 			controladorPlataformas.InicializarPlataformas();
@@ -167,19 +192,23 @@ public class ControladorPlayer : MonoBehaviour
 				velocity.x = 0;
 				return;
 			}
-
+			controladorGravidade.modificarGravidade (ref gravidade
+				,DirecaoX(),DirecaoY(), estado);
 		}
 
 		if (coll.gameObject.CompareTag("platDireita"))
 		{
+			
 			if (DirecaoX () == 0 && DirecaoY() == 1) {
 				velocity.x = velocity.y;
 				velocity.y = 0;
+				estado = false;
 			}
 
 			if (DirecaoX () == 0 && DirecaoY() == -1) {
 				velocity.x = -velocity.y;
 				velocity.y = 0;
+				estado = true;
 			}
 
 			controladorPlataformas.InicializarPlataformas();
@@ -196,7 +225,7 @@ public class ControladorPlayer : MonoBehaviour
 				velocity.y = 0;
 				return;
 			}
-
+			controladorGravidade.modificarGravidade (ref gravidade,DirecaoX(),DirecaoY(), estado);
 
 		}
 
@@ -206,11 +235,13 @@ public class ControladorPlayer : MonoBehaviour
 			if (DirecaoX () == 0 && DirecaoY() == 1) {
 				velocity.x = -velocity.y;
 				velocity.y = 0;
+				estado = false;
 			}
 
 			if (DirecaoX () == 0 && DirecaoY() == -1) {
 				velocity.x = velocity.y;
 				velocity.y = 0;
+				estado = true;
 			}
 
 			controladorPlataformas.InicializarPlataformas();
@@ -228,7 +259,7 @@ public class ControladorPlayer : MonoBehaviour
 				return;
 			}
 
-
+			controladorGravidade.modificarGravidade (ref gravidade,DirecaoX(),DirecaoY(), estado);
 		}
 
 
@@ -325,13 +356,29 @@ public class ControladorPlayer : MonoBehaviour
                 if(DirecaoX() != 0) { 
 					// Swipe up
 				    if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
+						if (estado) {
+							// fazer morrer; 
+						} else {
+							estado = true;
+
+						}
+						controladorGravidade.modificarGravidade (ref gravidade, DirecaoX (), DirecaoY (), estado);
+
 					    swipeDirection = Swipe.Up;
 						transform.position = new Vector2 (transform.position.x, transform.position.y + posicaoSwipe);
 						controladorAudio.playMove ();
 
 				    // Swipe down
 				    } else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
-					    swipeDirection = Swipe.Down;
+						if (!estado) {
+							// fazer morrer; 
+						} else {
+							estado = false;
+
+						}
+						controladorGravidade.modificarGravidade (ref gravidade, DirecaoX (), DirecaoY (), estado);
+
+						swipeDirection = Swipe.Down;
 						transform.position = new Vector2 (transform.position.x, transform.position.y - posicaoSwipe);
 						controladorAudio.playMove ();
 					    
@@ -343,6 +390,13 @@ public class ControladorPlayer : MonoBehaviour
                 if(DirecaoY() != 0) {
 					// Swipe left
 					if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
+						if (!estado) {
+							// fazer morrer; 
+						} else {
+							estado = false;
+							}
+						controladorGravidade.modificarGravidade (ref gravidade, DirecaoX (), DirecaoY (), estado);
+
 						swipeDirection = Swipe.Left;
 						transform.position = new Vector2 (transform.position.x - posicaoSwipe, transform.position.y );
 						controladorAudio.playMove ();
@@ -351,6 +405,14 @@ public class ControladorPlayer : MonoBehaviour
 					}
 					// Swipe right
 					else if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
+						if (estado) {
+							// fazer morrer; 
+						} else {
+							estado = true;
+
+							}
+						controladorGravidade.modificarGravidade (ref gravidade, DirecaoX (), DirecaoY (), estado);
+
 						swipeDirection = Swipe.Right;
 						transform.position = new Vector2 (transform.position.x + posicaoSwipe, transform.position.y);
 						controladorAudio.playMove ();
