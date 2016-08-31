@@ -11,7 +11,7 @@ public class ControladorGame : MonoBehaviour {
 	void Start () {
 
 		controladorPlayer = GameObject.FindGameObjectWithTag ("Player").GetComponent<ControladorPlayer> ();
-		textPontuacao = GameObject.FindGameObjectWithTag ("Recorde").GetComponent<Text> ();
+		textPontuacao = GameObject.FindGameObjectWithTag ("pontuacaoInGame").GetComponent<Text> ();
 
 
 	}    

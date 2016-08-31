@@ -9,15 +9,15 @@ public class ControladorGravidade : MonoBehaviour {
 		if (direcaoX != 0) {
 			
 			if (estado) {
-				gravidade = -5;
+				gravidade = -0.97f;
 			} else
-				gravidade = 5;
+				gravidade = 0.97f;
 		}
 		if (direcaoY != 0) {
 			if (estado) {
-				gravidade = -5;
+				gravidade = -0.97f;
 			} else
-				gravidade = 5;
+				gravidade = 0.97f;
 		}
 	}
 }

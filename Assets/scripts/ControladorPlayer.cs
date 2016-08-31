@@ -22,6 +22,9 @@ public class ControladorPlayer : MonoBehaviour
 	ControladorGravidade controladorGravidade;
 	public bool estado;
 
+	RaycastHit2D solo;
+	public LayerMask linha;
+
 	Camera camera;
 
 	public static Swipe swipeDirection;
@@ -34,6 +37,10 @@ public class ControladorPlayer : MonoBehaviour
 	ParticleSystem particula;
 
 	private float posicaoSwipe;
+
+	private Vector3 posicaoVelha;
+
+//	bool cima,baixo,direita,esquerda;
 
 	int colisaoPlat;
 
@@ -51,11 +58,12 @@ public class ControladorPlayer : MonoBehaviour
 		colisaoPlat = 0;
 
 		// sitar pos. swipe
-		posicaoSwipe = 0.8f;
+		posicaoSwipe = 0.7f;
 
 		//velocidade, pontuação player inicial;
 		velocidade = 2f;
         pontuacao = 0;
+
 
         
 		particula = GameObject.FindGameObjectWithTag ("controladorLinha").GetComponent<ParticleSystem> ();
@@ -74,32 +82,88 @@ public class ControladorPlayer : MonoBehaviour
 
 	void Update ()
 	{
-		
+		//ResetarPosicoes (cima, baixo,direita,esquerda);
+		posicaoVelha = transform.position;
 
 		if (getIsAlive()) {
 			calcularPontuacao ();
 			transform.Translate (velocity * velocidade * Time.deltaTime);
-			Debug.Log (gravidade);
-			if (DirecaoX () != 0) {
+		
+			//erro: se direção for negativa a gravidade fica nula. solução: cada direção (1, -1) deve ter seu raycast de solo para verificar a direçao do 
+			//raycast assim ao criar o raycast ele nao anulará a gravidade. 
 
-					transform.Translate (Vector3.up * gravidade * Time.deltaTime);
+			if (DirecaoX () != 0) {
+				//solo = Physics2D.Raycast (transform.position , new Vector2(transform.position.x, transform.position.y*gravidade),5);
+				controladorGravidade.modificarGravidade (ref gravidade,DirecaoX(),DirecaoY(), estado);
+
+				solo = Physics2D.Raycast (transform.position , Vector2.up*Math.Sign(gravidade),4f,linha);
+				Debug.DrawRay( transform.position , Vector2.up*Math.Sign(gravidade), Color.red,0.1f);
+
+					//Debug.Log (solo.distance);
+				if (solo) {
+					
+					//Debug.Log (gravidade);
+					//Debug.Log (solo.distance);
+					//if (solo.distance == 0 || solo.distance >= 0.6f) {//|| solo.distance <= 0.3f) {
+						//Debug.Log("1");
+						gravidade = 0;
+					//}
+				} else //{
+					//controladorGravidade.modificarGravidade (ref gravidade,DirecaoX(),DirecaoY(), estado);
+				//}
+					
+				transform.Translate (Vector3.up * gravidade * Time.deltaTime);
+//				if (transform.position.y >= posicaoVelha.y){
+//					transform.position = posicaoVelha;
+//				}
+
 				}
 
 			if (DirecaoY () != 0) {
+				controladorGravidade.modificarGravidade (ref gravidade,DirecaoX(),DirecaoY(), estado);
+
+				solo = Physics2D.Raycast (transform.position , Vector2.right*Math.Sign(gravidade),4,linha);
+
+				Debug.DrawRay( transform.position , Vector2.right*Math.Sign(gravidade), Color.green,1);
+				if (solo) {
+				
+
+					//Debug.DrawRay (transform.position , Vector2.right*Math.Sign(gravidade),Color.green,5);
+					//Debug.Log (solo.distance);	
+					//if (solo.distance == 0 || solo.distance <= 0.6f) {
+						//	Debug.Log("2");
+							gravidade = 0;
+					//}
+				} else //{
+				//	controladorGravidade.modificarGravidade (ref gravidade,DirecaoX(),DirecaoY(), estado);
+				//}
+
 				transform.Translate (Vector3.right * gravidade * Time.deltaTime);
 
 			}
-			
+
+
 			calcularVelocidade ();
 
 
 			DetectSwipe ();
 
-			gameOver ();
-		}
+			verificarDistancia ();
+		}	
+
 
 
 	}
+
+//	public void ResetarPosicoes(ref bool cima ,ref bool baixo , ref bool direita, ref bool esquerda){
+	//	cima = baixo = false; 
+//		direita = esquerda = false;
+//	}
+//
+
+
+
+
 
     public int DirecaoX()
     {
@@ -115,23 +179,11 @@ public class ControladorPlayer : MonoBehaviour
     void OnTriggerEnter2D(Collider2D coll)
     {
 		//Atualizar para GAME OVER
-		if (coll.gameObject.CompareTag ("T")) {
-			
-			PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
-			if (pontuacao > PlayerPrefs.GetFloat ("Pontuacao")) {
-				PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
-			}
+		if (coll.gameObject.CompareTag ("T")) {		
 
-			controladorAudio.playGameOver ();
 			Destroy (coll.gameObject);
+			gameOver ();
 
-			particula.maxParticles=0;
-
-			controladorMorte.AtualizarPosição (gameObject.transform.position);
-
-			isAlive = false;
-			SceneManager.LoadScene("GameOver",LoadSceneMode.Additive);
-			//Destroy (gameObject);
 		}
 
 
@@ -192,8 +244,7 @@ public class ControladorPlayer : MonoBehaviour
 				velocity.x = 0;
 				return;
 			}
-			controladorGravidade.modificarGravidade (ref gravidade
-				,DirecaoX(),DirecaoY(), estado);
+			controladorGravidade.modificarGravidade (ref gravidade,DirecaoX(),DirecaoY(), estado);
 		}
 
 		if (coll.gameObject.CompareTag("platDireita"))
@@ -357,7 +408,8 @@ public class ControladorPlayer : MonoBehaviour
 					// Swipe up
 				    if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
 						if (estado) {
-							// fazer morrer; 
+							gameOver();
+
 						} else {
 							estado = true;
 
@@ -372,6 +424,8 @@ public class ControladorPlayer : MonoBehaviour
 				    } else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
 						if (!estado) {
 							// fazer morrer; 
+							gameOver(); 
+
 						} else {
 							estado = false;
 
@@ -391,10 +445,13 @@ public class ControladorPlayer : MonoBehaviour
 					// Swipe left
 					if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
 						if (!estado) {
-							// fazer morrer; 
+							// fazer morrer;
+							gameOver();
+
 						} else {
 							estado = false;
-							}
+						}
+
 						controladorGravidade.modificarGravidade (ref gravidade, DirecaoX (), DirecaoY (), estado);
 
 						swipeDirection = Swipe.Left;
@@ -406,11 +463,13 @@ public class ControladorPlayer : MonoBehaviour
 					// Swipe right
 					else if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
 						if (estado) {
-							// fazer morrer; 
+							// fazer morrer;
+							gameOver();
+
 						} else {
 							estado = true;
+						}
 
-							}
 						controladorGravidade.modificarGravidade (ref gravidade, DirecaoX (), DirecaoY (), estado);
 
 						swipeDirection = Swipe.Right;
@@ -421,75 +480,40 @@ public class ControladorPlayer : MonoBehaviour
 					}
                 }
 
-				/*if (DirecaoX() == -1)
-                {
-					//Swipe up
-                    if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
-                    {
-                        swipeDirection = Swipe.Up;
-                        transform.position = new Vector2(transform.position.x, transform.position.y + 0.8f);
-                        Debug.Log("Up");                        
-                    }
-
-					// Swipe down
-                    else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
-                    {
-                        swipeDirection = Swipe.Down;
-                        transform.position = new Vector2(transform.position.x, transform.position.y - 0.8f);
-                        Debug.Log("Down");
-
-                    }
-                }*/
-                /*if (DirecaoY() == -1)
-                {
-					// Swipe left
-					if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
-						swipeDirection = Swipe.Left;
-						transform.position = new Vector2 (transform.position.x - 0.8f, transform.position.y );
-						Debug.Log ("Swiped LEFT");
-
-					}
-					// Swipe right
-					else if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
-						swipeDirection = Swipe.Right;
-						transform.position = new Vector2 (transform.position.x + 0.8f, transform.position.y );
-						Debug.Log ("Swiped RIGHT");
-
-					}
-                }*/
             }
 
 		}
 	}
 
 
-
 	public Vector3 getPosicaoPlayer(){
 		return gameObject.transform.position;
 	}
 
-	void gameOver(){
-		if(getIsAlive()){
-			
+	void verificarDistancia(){
+		if(getIsAlive()){			
 			if (Vector3.Distance(gameObject.transform.position, controladorMorte.gameObject.transform.position) > 20){	
-				PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
-
-				if (pontuacao > PlayerPrefs.GetFloat ("Recorde")) {
-					PlayerPrefs.SetFloat ("Recorde", pontuacao);
-				}
-
-				controladorAudio.playGameOver ();
-
-				gameObject.transform.position = controladorMorte.gameObject.transform.position;
-
-				particula.maxParticles = 0;
-				//controladorMorte.AtualizarPosição (gameObject.transform.position);
-
-				SceneManager.LoadScene("GameOver",LoadSceneMode.Additive);
-								//	Application.LoadLevel (2);
-				isAlive = false;
-			}
+				gameOver ();
+			}				
 		}
+	}
+
+	void gameOver(){
+		
+		PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
+
+		if (pontuacao > PlayerPrefs.GetFloat ("Recorde")) {
+			PlayerPrefs.SetFloat ("Recorde", pontuacao);
+		}
+		controladorAudio.playGameOver ();
+
+		particula.maxParticles = 0;
+		controladorMorte.transform.position = new Vector3(0,2,0);
+		transform.position = new Vector3 (0,2,0);
+
+
+		isAlive = false;
+		SceneManager.LoadScene("GameOver",LoadSceneMode.Additive);
 	}
 
 	public bool getIsAlive(){

@@ -12,6 +12,10 @@ public class ControladorGameGameOver : MonoBehaviour {
 	ControladorPlataformas controladorPlataforma;
 	ControladorAudio ControladorAudio;
 
+	GameObject pontuacaoInGame;
+
+	public Button button;
+
 	ParticleSystem particula; 
 	// Use this for initialization
 	void Start () {
@@ -20,11 +24,13 @@ public class ControladorGameGameOver : MonoBehaviour {
 		controladorPlataforma =  GameObject.FindGameObjectWithTag("controladorPlat").GetComponent<ControladorPlataformas>();
 		ControladorAudio = GameObject.FindGameObjectWithTag ("Audio").GetComponent<ControladorAudio> ();
 
+		pontuacaoInGame = GameObject.FindGameObjectWithTag ("pontuacaoInGame");
+
 		audio = GameObject.FindGameObjectWithTag ("Audio");
 
 		textRecorde = GameObject.FindGameObjectWithTag ("Pontuacao").GetComponent<Text> ();
 
-
+		pontuacaoInGame.SetActive (false);
 		//RecordeLigado.SetActive(true);
 
 		textRecorde.text = PlayerPrefs.GetFloat ("Pontuacao").ToString();
@@ -48,15 +54,19 @@ public class ControladorGameGameOver : MonoBehaviour {
 	}
 
 	public void continueGame(){
+		if(PlayerPrefs.GetInt("continue") == 0){
+			SceneManager.UnloadScene("GameOver");
 
-		SceneManager.UnloadScene("GameOver");
-		controladorPlayer.setIsAlive (true);
-		particula.maxParticles=10000;
-		ControladorAudio.playGame();
+			controladorPlayer.setIsAlive (true);
+			particula.maxParticles=10000;
+			ControladorAudio.playGame();
+			pontuacaoInGame.SetActive (true);
+			PlayerPrefs.SetInt ("continue", 1);
 
-//		SceneManager.LoadScene ("",LoadSceneMode.Additive);
+//			SceneManager.LoadScene ("",LoadSceneMode.Additive);
+		}
 
-	}
+			}
 	// Update is called once per frame
 	void Update () {
 
