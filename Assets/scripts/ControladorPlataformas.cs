@@ -60,36 +60,18 @@ public class ControladorPlataformas : MonoBehaviour {
 
 	public void continuePlataforma(Vector3 posicao){
 		
-		if (controladorPlayer.DirecaoX () == 1) {
+		posicaoX = 3;
+		posicaoY = 1.3f;
+
 			//corrigir posicao
-			posicaoX= posicao.x + tamanhoPlataformaDeitada;
-			posicaoY = posicao.y;
+			posicaoX= posicaoX+1;
+			//posicaoY = posicao.y;
 			//posicaoX= posicao.x;
 			//posicaoY = posicao.y;
 			//Instantiate (plataformaDireita, new Vector3(controladorPlayer.gameObject.transform.position.x+6,controladorPlayer.gameObject.transform.position.y) , Quaternion.identity);
 			Instantiate (plataformaDireita, new Vector3(posicaoX,posicaoY) , Quaternion.identity);
 
-		}
-		if (controladorPlayer.DirecaoX () == -1) {
-			posicaoX = posicao.x- tamanhoPlataformaDeitada;
-			posicaoY = posicao.y;
-			//posicaoX= posicao.x ;
-
-			//Instantiate (plataformaEsquerda, controladorPlayer.gameObject.transform.position, Quaternion.identity);
-			Instantiate (plataformaEsquerda, new Vector3(posicaoX,posicaoY) , Quaternion.identity);
-		}
-		if (controladorPlayer.DirecaoY () == 1) {
-			posicaoX= posicao.x;
-			posicaoY = posicao.y+tamanhoPlataformaDeitada;
-			//Instantiate (plataformaCima, controladorPlayer.gameObject.transform.position, Quaternion.identity);
-			Instantiate (plataformaCima, new Vector3(posicaoX,posicaoY) , Quaternion.identity);
-		}
-		if (controladorPlayer.DirecaoY () == -1) {
-			posicaoX= posicao.x;
-			posicaoY = posicao.y-tamanhoPlataformaDeitada;
-			//Instantiate (plataformaBaixo, controladorPlayer.gameObject.transform.position, Quaternion.identity);
-			Instantiate (plataformaBaixo, new Vector3(posicaoX,posicaoY) , Quaternion.identity);
-		}
+		
 	}
 	
 	void Update () {

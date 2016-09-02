@@ -41,7 +41,7 @@ public class ControladorPlayer : MonoBehaviour
 	private Vector3 posicaoVelha;
 
 //	bool cima,baixo,direita,esquerda;
-
+	public bool detectSwipe;
 	int colisaoPlat;
 
 	bool isAlive;
@@ -54,7 +54,7 @@ public class ControladorPlayer : MonoBehaviour
 		gravidade = -5;
 
 		estado = true;
-
+		detectSwipe = true;
 		colisaoPlat = 0;
 
 		// sitar pos. swipe
@@ -84,7 +84,7 @@ public class ControladorPlayer : MonoBehaviour
 	{
 		//ResetarPosicoes (cima, baixo,direita,esquerda);
 		posicaoVelha = transform.position;
-
+		verificarDistancia ();
 		if (getIsAlive()) {
 			calcularPontuacao ();
 			transform.Translate (velocity * velocidade * Time.deltaTime);
@@ -145,10 +145,10 @@ public class ControladorPlayer : MonoBehaviour
 
 			calcularVelocidade ();
 
+			if (detectSwipe) {
+				DetectSwipe ();
+			}
 
-			DetectSwipe ();
-
-			verificarDistancia ();
 		}	
 
 
@@ -346,40 +346,106 @@ public class ControladorPlayer : MonoBehaviour
 			}
 
 			if (t.phase == TouchPhase.Ended) {
-				secondPressPos = new Vector2(t.position.x, t.position.y);
-				currentSwipe = new Vector3(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
+				secondPressPos = new Vector2 (t.position.x, t.position.y);
+				currentSwipe = new Vector3 (secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
 
 				// Make sure it was a legit swipe, not a tap
-				/*if (currentSwipe.magnitude < minSwipeLength) {
+				if (currentSwipe.magnitude < minSwipeLength) {
 					swipeDirection = Swipe.None;
 					return;
-				}*/
-
-				currentSwipe.Normalize();
-
-				// Swipe up
-				if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
-					swipeDirection = Swipe.Up;
 				}
 
-				// Swipe down
-				 else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
-					swipeDirection = Swipe.Down;
+				currentSwipe.Normalize ();
+
+				//Swipe directional check
+				if (DirecaoX () != 0) { 
+					// Swipe up
+					if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
+						if (estado) {
+
+							velocity = Vector3.up;
+							detectSwipe = false;
+							//gameOver();
+
+						} else {
+							estado = true;
+
+						}
+						controladorGravidade.modificarGravidade (ref gravidade, DirecaoX (), DirecaoY (), estado);
+
+						swipeDirection = Swipe.Up;
+						transform.position = new Vector2 (transform.position.x, transform.position.y + posicaoSwipe);
+						controladorAudio.playMove ();
+
+						// Swipe down
+					} else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
+						if (!estado) {
+							// fazer morrer; 
+							velocity = Vector3.down;
+							detectSwipe = false;
+							//gameOver(); 
+
+
+						} else {
+							estado = false;
+
+						}
+						controladorGravidade.modificarGravidade (ref gravidade, DirecaoX (), DirecaoY (), estado);
+
+						swipeDirection = Swipe.Down;
+						transform.position = new Vector2 (transform.position.x, transform.position.y - posicaoSwipe);
+						controladorAudio.playMove ();
+
+
+					}
+
+
+				}
+				if (DirecaoY () != 0) {
+					// Swipe left
+					if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
+						if (!estado) {
+							// fazer morrer;
+
+							velocity = Vector3.left;
+							detectSwipe = false;
+							//gameOver();
+
+						} else {
+							estado = false;
+						}
+
+						controladorGravidade.modificarGravidade (ref gravidade, DirecaoX (), DirecaoY (), estado);
+
+						swipeDirection = Swipe.Left;
+						transform.position = new Vector2 (transform.position.x - posicaoSwipe, transform.position.y);
+						controladorAudio.playMove ();
+
+
+					}
+					// Swipe right
+					else if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
+						if (estado) {
+							// fazer morrer;
+
+							velocity = Vector3.right;
+							detectSwipe = false;
+							//gameOver();
+
+						} else {
+							estado = true;
+						}
+
+						controladorGravidade.modificarGravidade (ref gravidade, DirecaoX (), DirecaoY (), estado);
+
+						swipeDirection = Swipe.Right;
+						transform.position = new Vector2 (transform.position.x + posicaoSwipe, transform.position.y);
+						controladorAudio.playMove ();
+
+
+					}
 				}
 
-				// Swipe left
-				else if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
-					swipeDirection = Swipe.Left;
-					Debug.Log ("Swiped LEFT");
-
-				}
-				// Swipe right
-				else if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
-					swipeDirection = Swipe.Right;
-					Debug.Log ("Swiped RIGHT");
-
-				}
-			
 			}
 
 		} else {
@@ -408,7 +474,10 @@ public class ControladorPlayer : MonoBehaviour
 					// Swipe up
 				    if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
 						if (estado) {
-							gameOver();
+							
+							velocity = Vector3.up;
+							detectSwipe = false;
+							//gameOver();
 
 						} else {
 							estado = true;
@@ -424,7 +493,10 @@ public class ControladorPlayer : MonoBehaviour
 				    } else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
 						if (!estado) {
 							// fazer morrer; 
-							gameOver(); 
+							velocity = Vector3.down;
+							detectSwipe = false;
+							//gameOver(); 
+
 
 						} else {
 							estado = false;
@@ -446,7 +518,10 @@ public class ControladorPlayer : MonoBehaviour
 					if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
 						if (!estado) {
 							// fazer morrer;
-							gameOver();
+
+							velocity = Vector3.left;
+							detectSwipe = false;
+							//gameOver();
 
 						} else {
 							estado = false;
@@ -464,7 +539,10 @@ public class ControladorPlayer : MonoBehaviour
 					else if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
 						if (estado) {
 							// fazer morrer;
-							gameOver();
+
+							velocity = Vector3.right;
+							detectSwipe = false;
+							//gameOver();
 
 						} else {
 							estado = true;
@@ -506,6 +584,9 @@ public class ControladorPlayer : MonoBehaviour
 			PlayerPrefs.SetFloat ("Recorde", pontuacao);
 		}
 		controladorAudio.playGameOver ();
+		velocity = Vector3.right;
+		controladorGravidade.gravidade = -0.97f;
+		estado = true;
 
 		particula.maxParticles = 0;
 		controladorMorte.transform.position = new Vector3(0,2,0);

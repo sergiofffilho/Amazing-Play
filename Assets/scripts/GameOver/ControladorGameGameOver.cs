@@ -14,9 +14,15 @@ public class ControladorGameGameOver : MonoBehaviour {
 
 	GameObject pontuacaoInGame;
 
-	public Button button;
+	Image botaoContinue;
+
+	Button button;
 
 	ParticleSystem particula; 
+
+	Color c1;
+	Color c2;
+
 	// Use this for initialization
 	void Start () {
 		particula = GameObject.FindGameObjectWithTag ("controladorLinha").GetComponent<ParticleSystem> ();
@@ -37,6 +43,17 @@ public class ControladorGameGameOver : MonoBehaviour {
 
 		//PlayerPrefs.SetFloat ("Recorde",0);
 
+		botaoContinue = GameObject.FindGameObjectWithTag ("botaoContinue").GetComponent<Image>();
+		c1 = botaoContinue.color;
+		c2 = botaoContinue.color;
+		c1.a = 0.5f;
+		c2.a = 1;
+
+		if (PlayerPrefs.GetInt ("continue") == 0) {
+			botaoContinue.color = c2;
+		} else {
+			botaoContinue.color = c1;
+		}
 
 		if (PlayerPrefs.GetFloat ("Pontuacao") >= PlayerPrefs.GetFloat ("Recorde")) {
 			RecordeLigado.SetActive(true);
@@ -56,7 +73,7 @@ public class ControladorGameGameOver : MonoBehaviour {
 	public void continueGame(){
 		if(PlayerPrefs.GetInt("continue") == 0){
 			SceneManager.UnloadScene("GameOver");
-
+			controladorPlayer.detectSwipe = true;
 			controladorPlayer.setIsAlive (true);
 			particula.maxParticles=10000;
 			ControladorAudio.playGame();

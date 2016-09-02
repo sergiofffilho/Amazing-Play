@@ -13,6 +13,7 @@ public class LoadOnClick : MonoBehaviour {
 		controladorAudio [3].Stop ();
 		controladorAudio [3].loop = false;
 		controladorAudio [1].Play ();
+		PlayerPrefs.SetInt ("continue", 0);
 		Application.LoadLevel (level);
  	}
 }

@@ -5,7 +5,7 @@ public class ControladorGravidade : MonoBehaviour {
 	public float gravidade;
 	public void modificarGravidade (ref float gravidade, int direcaoX, int direcaoY, bool estado)
 	{
-		Debug.Log (estado);
+//		Debug.Log (estado);
 		if (direcaoX != 0) {
 			
 			if (estado) {
