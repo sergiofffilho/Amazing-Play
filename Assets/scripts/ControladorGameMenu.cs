@@ -17,6 +17,12 @@ public class ControladorGame : MonoBehaviour {
 	}    
 
 	void Update(){
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			Debug.Log ("entrou");
+			Application.Quit();
+		
+		}
+			
 		textPontuacao.text = controladorPlayer.pontuacao.ToString ();
 	}
 }

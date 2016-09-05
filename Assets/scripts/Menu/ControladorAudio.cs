@@ -32,6 +32,7 @@ public class ControladorAudio : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+		
 		if (PlayerPrefs.GetInt("mute") == 0 && !menu.isPlaying && !game.isPlaying && !derrota) {
 			
 				menu.Play ();

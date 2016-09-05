@@ -21,6 +21,14 @@ public class OptionsOnClick : MonoBehaviour {
 		}
 	}
 
+	void Update(){
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			Debug.Log ("entrou");
+			Application.Quit();
+
+		}
+	}
+
     public void LoadClick(int test)
     {
 		
