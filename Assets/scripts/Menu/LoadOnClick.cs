@@ -5,9 +5,13 @@ public class LoadOnClick : MonoBehaviour {
  	
 	AudioSource[] controladorAudio;
 
+	public GameObject loadingImage;
+	private AsyncOperation async;
 
 	public void LoadScene(int level){
-		
+		loadingImage.SetActive(true);
+		StartCoroutine( loadingPlay (level));
+
 		controladorAudio = GameObject.FindGameObjectWithTag ("Audio").GetComponents<AudioSource> ();
 		controladorAudio [0].Stop ();
 		controladorAudio [3].Stop ();
@@ -16,4 +20,15 @@ public class LoadOnClick : MonoBehaviour {
 		PlayerPrefs.SetInt ("continue", 0);
 		Application.LoadLevel (level);
  	}
+
+	IEnumerator loadingPlay (int level)
+	{
+		async = Application.LoadLevelAsync(level);
+		while (!async.isDone)
+		{
+			Debug.Log (Time.deltaTime);
+			yield return null;
+		}
+	}
+
 }

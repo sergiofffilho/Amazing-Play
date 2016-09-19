@@ -23,6 +23,9 @@ public class ControladorGameGameOver : MonoBehaviour {
 	Color c1;
 	Color c2;
 
+	public GameObject loadingImage;
+	private AsyncOperation async;
+
 	// Use this for initialization
 	void Start () {
 		particula = GameObject.FindGameObjectWithTag ("controladorLinha").GetComponent<ParticleSystem> ();
@@ -64,10 +67,22 @@ public class ControladorGameGameOver : MonoBehaviour {
 
 	}
 	public void returnMenu(){
-			Destroy(audio);
-			Application.LoadLevel (0);
+		loadingImage.SetActive(true);
+		int level = 0;
+		StartCoroutine( loadingPlay (level));
 
-	
+		Destroy(audio);
+		Application.LoadLevel (0);	
+	}
+
+	IEnumerator loadingPlay (int level)
+	{
+		async = Application.LoadLevelAsync(level);
+		while (!async.isDone)
+		{
+			Debug.Log ("df");
+			yield return null;
+		}
 	}
 
 	public void continueGame(){
@@ -83,11 +98,19 @@ public class ControladorGameGameOver : MonoBehaviour {
 //			SceneManager.LoadScene ("",LoadSceneMode.Additive);
 		}
 
-			}
+	}
+
+
+
+	public void buttonRate(){
+
+		Application.OpenURL("http://unity3d.com/");
+
+	}
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Escape)) {
-			Debug.Log ("entrou");
+
 			Application.Quit();
 
 		}

@@ -10,12 +10,6 @@ public class ControladorMenu : MonoBehaviour {
 
     public bool audio;
 
-	// Use this for initialization
-	void Start () {
-
-     
-	}
-	
     public int GetRecord()
     {
         return PlayerPrefs.GetInt("Recorde");

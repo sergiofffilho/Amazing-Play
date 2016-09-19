@@ -97,8 +97,6 @@ public class ControladorPlayer : MonoBehaviour
 				controladorGravidade.modificarGravidade (ref gravidade,DirecaoX(),DirecaoY(), estado);
 
 				solo = Physics2D.Raycast (transform.position , Vector2.up*Math.Sign(gravidade),4f,linha);
-				Debug.DrawRay( transform.position , Vector2.up*Math.Sign(gravidade), Color.red,0.1f);
-
 					//Debug.Log (solo.distance);
 				if (solo) {
 					
@@ -124,7 +122,6 @@ public class ControladorPlayer : MonoBehaviour
 
 				solo = Physics2D.Raycast (transform.position , Vector2.right*Math.Sign(gravidade),4,linha);
 
-				Debug.DrawRay( transform.position , Vector2.right*Math.Sign(gravidade), Color.green,1);
 				if (solo) {
 				
 

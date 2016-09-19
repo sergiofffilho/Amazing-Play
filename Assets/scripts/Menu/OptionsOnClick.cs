@@ -23,7 +23,7 @@ public class OptionsOnClick : MonoBehaviour {
 
 	void Update(){
 		if (Input.GetKeyDown (KeyCode.Escape)) {
-			Debug.Log ("entrou");
+			
 			Application.Quit();
 
 		}
@@ -33,8 +33,7 @@ public class OptionsOnClick : MonoBehaviour {
     {
 		
 		test = PlayerPrefs.GetInt ("mute");
-		Debug.Log(PlayerPrefs.GetInt("mute"));
-
+	
 		if (test == 1)
 		{	
 			 
@@ -65,5 +64,11 @@ public class OptionsOnClick : MonoBehaviour {
 			recordeLigado.SetActive(true);
 			recordeDesligado.SetActive(false);
 		}
+	}
+
+	public void buttonRate(){
+		
+			Application.OpenURL("http://unity3d.com/");
+		
 	}
 }
