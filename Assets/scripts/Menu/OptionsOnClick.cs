@@ -22,11 +22,14 @@ public class OptionsOnClick : MonoBehaviour {
 	}
 
 	void Update(){
-		if (Input.GetKeyDown (KeyCode.Escape)) {
-			
+		if (Input.GetKeyDown (KeyCode.Escape)) {			
 			Application.Quit();
 
 		}
+	}
+
+	public void abrirTutorial(int level){
+		Application.LoadLevel (level);
 	}
 
     public void LoadClick(int test)
