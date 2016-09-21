@@ -9,7 +9,6 @@ public class OptionsOnClick : MonoBehaviour {
 	public GameObject recordeLigado;
 	public GameObject recordeDesligado;
 
-
 	void Start(){
 		if (PlayerPrefs.GetInt ("mute") == 1) {
 			audioImaegeLigado.SetActive(false);
@@ -24,7 +23,6 @@ public class OptionsOnClick : MonoBehaviour {
 	void Update(){
 		if (Input.GetKeyDown (KeyCode.Escape)) {			
 			Application.Quit();
-
 		}
 	}
 
@@ -32,20 +30,16 @@ public class OptionsOnClick : MonoBehaviour {
 		Application.LoadLevel (level);
 	}
 
-    public void LoadClick(int test)
-    {
-		
+    public void LoadClick(int test){
 		test = PlayerPrefs.GetInt ("mute");
 	
-		if (test == 1)
-		{	
-			 
+		if (test == 1){	
 			audioImaegeLigado.SetActive (true);
 			audioImaegeDesligado.SetActive (false);
 			PlayerPrefs.SetInt ("mute", 0);
-
         }
-        if (test == 0) {			
+
+        if (test == 0){			
             audioImaegeLigado.SetActive(false);
             audioImaegeDesligado.SetActive(true);
 			PlayerPrefs.SetInt ("mute", 1);
@@ -54,13 +48,11 @@ public class OptionsOnClick : MonoBehaviour {
 
 	public void ativarTelaRecord(int test){		
 		
-		if (test == 1)
-		{	
+		if (test == 1){	
 			
 			recorde.SetActive(true);
 			recordeLigado.SetActive(false);
 			recordeDesligado.SetActive(true);
-
 		}
 		if (test == 2) {			
 			recorde.SetActive(false);
@@ -70,8 +62,6 @@ public class OptionsOnClick : MonoBehaviour {
 	}
 
 	public void buttonRate(){
-		
-			Application.OpenURL("http://unity3d.com/");
-		
+		Application.OpenURL("http://unity3d.com/");
 	}
 }

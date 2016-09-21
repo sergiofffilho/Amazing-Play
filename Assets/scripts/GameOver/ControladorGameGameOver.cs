@@ -40,11 +40,8 @@ public class ControladorGameGameOver : MonoBehaviour {
 		textRecorde = GameObject.FindGameObjectWithTag ("Pontuacao").GetComponent<Text> ();
 
 		pontuacaoInGame.SetActive (false);
-		//RecordeLigado.SetActive(true);
 
 		textRecorde.text = PlayerPrefs.GetFloat ("Pontuacao").ToString();
-
-		//PlayerPrefs.SetFloat ("Recorde",0);
 
 		botaoContinue = GameObject.FindGameObjectWithTag ("botaoContinue").GetComponent<Image>();
 		c1 = botaoContinue.color;
@@ -60,12 +57,17 @@ public class ControladorGameGameOver : MonoBehaviour {
 
 		if (PlayerPrefs.GetFloat ("Pontuacao") >= PlayerPrefs.GetFloat ("Recorde")) {
 			RecordeLigado.SetActive(true);
-				
 		}
 
 		SceneManager.SetActiveScene (SceneManager.GetSceneByName("GameOver"));
-
 	}
+
+	void Update () {
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			Application.Quit();
+		}
+	}
+
 	public void returnMenu(){
 		loadingImage.SetActive(true);
 		int level = 0;
@@ -80,7 +82,6 @@ public class ControladorGameGameOver : MonoBehaviour {
 		async = Application.LoadLevelAsync(level);
 		while (!async.isDone)
 		{
-			Debug.Log ("df");
 			yield return null;
 		}
 	}
@@ -94,27 +95,10 @@ public class ControladorGameGameOver : MonoBehaviour {
 			ControladorAudio.playGame();
 			pontuacaoInGame.SetActive (true);
 			PlayerPrefs.SetInt ("continue", 1);
-
-//			SceneManager.LoadScene ("",LoadSceneMode.Additive);
 		}
-
 	}
-
-
 
 	public void buttonRate(){
-
 		Application.OpenURL("http://unity3d.com/");
-
-	}
-	// Update is called once per frame
-	void Update () {
-		if (Input.GetKeyDown (KeyCode.Escape)) {
-
-			Application.Quit();
-
-		}
-
-	
 	}
 }

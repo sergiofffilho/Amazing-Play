@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class ControladorAudio : MonoBehaviour {
-
 	OptionsOnClick optionsOnClick;
 
 	public AudioSource[] sounds;
@@ -24,21 +23,14 @@ public class ControladorAudio : MonoBehaviour {
 		gameOver = sounds [2];
 		pingo = sounds [3];
 		move = sounds [4];
-
-
 		derrota = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
-		
 		if (PlayerPrefs.GetInt("mute") == 0 && !menu.isPlaying && !game.isPlaying && !derrota) {
-			
 				menu.Play ();
 				pingo.Play ();
-
-
 
 		} if(PlayerPrefs.GetInt("mute") == 1 && menu.isPlaying){
 			menu.Pause ();
@@ -52,7 +44,6 @@ public class ControladorAudio : MonoBehaviour {
 		}
 
 		DontDestroyOnLoad(this.gameObject);
-
 	}
 
 	public void playGameOver(){
@@ -63,7 +54,6 @@ public class ControladorAudio : MonoBehaviour {
 
 	public void playPingo(){
 		pingo.Play ();
-
 	}
 
 	public void playMove(){

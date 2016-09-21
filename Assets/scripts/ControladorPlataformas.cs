@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class ControladorPlataformas : MonoBehaviour {
-
 	// Plataformasa a serem invocadas
 	public Transform plataformaDireita;
 	public Transform plataformaEsquerda;
@@ -15,7 +14,6 @@ public class ControladorPlataformas : MonoBehaviour {
 	public Transform TCima;
 	public Transform TBaixo;
 
-
 	// Posição de invocação das plataformas
 	float posicaoX;
 	float posicaoY;
@@ -26,7 +24,6 @@ public class ControladorPlataformas : MonoBehaviour {
 	ControladorPlayer controladorPlayer;
 	ControladorLinha controladorLinha;
 
-
 	//variavel para salvar pos. player
 	Vector3 posicaoPlayer;
 
@@ -34,44 +31,24 @@ public class ControladorPlataformas : MonoBehaviour {
 	int direcaoFuturaX;
 	int direcaoFuturaY;
 
-
-
 	void Start () {
-		//verificar: valores
 		tamanhoPlataformaEmpe = 4.4f;
 		tamanhoPlataformaDeitada =10;
 		posicaoX = 3;
 		posicaoY = 1.3f;
 
-
-
 		//salva pos. plaer no vector3
 		controladorPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<ControladorPlayer>();
 		posicaoPlayer = controladorPlayer.getPosicaoPlayer ();
 
-//		controladorLinha = GameObject.FindGameObjectWithTag ("controladorLinha").GetComponent<ControladorLinha> ();
-
 		Instantiate (plataformaDireita, new Vector3(posicaoX, posicaoY), Quaternion.identity);
-
-
-		//InicializarPlataformas ();
-
     }
 
-	public void continuePlataforma(Vector3 posicao){
-		
+	public void continuePlataforma(Vector3 posicao){		
 		posicaoX = 3;
 		posicaoY = 1.3f;
-
-			//corrigir posicao
-			posicaoX= posicaoX+1;
-			//posicaoY = posicao.y;
-			//posicaoX= posicao.x;
-			//posicaoY = posicao.y;
-			//Instantiate (plataformaDireita, new Vector3(controladorPlayer.gameObject.transform.position.x+6,controladorPlayer.gameObject.transform.position.y) , Quaternion.identity);
-			Instantiate (plataformaDireita, new Vector3(posicaoX,posicaoY) , Quaternion.identity);
-
-		
+		posicaoX= posicaoX+1;
+		Instantiate (plataformaDireita, new Vector3(posicaoX,posicaoY) , Quaternion.identity);
 	}
 	
 	void Update () {
@@ -80,236 +57,211 @@ public class ControladorPlataformas : MonoBehaviour {
 
 	public void InicializarPlataformas(){
 		
-	int verificador = Random.Range (0, 100);
-	int verificadorAleatorio = Random.Range (25, 35);
-	int verificadorT = Random.Range (0, 100);
+		int verificador = Random.Range (0, 100);
+		int verificadorAleatorio = Random.Range (25, 35);
+		int verificadorT = Random.Range (0, 100);
 
-	//Indo para direita
-	if (controladorPlayer.DirecaoX() == 1){
+		//Indo para direita
+		if (controladorPlayer.DirecaoX() == 1){
+			if (verificador <= verificadorAleatorio) {	
+				posicaoX = posicaoX + tamanhoPlataformaEmpe;
+				posicaoY = posicaoY + tamanhoPlataformaEmpe;
+				Instantiate (plataformaCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
 
-		if (verificador <= verificadorAleatorio) {	
-			posicaoX = posicaoX + tamanhoPlataformaEmpe;
-			posicaoY = posicaoY + tamanhoPlataformaEmpe;
-			Instantiate (plataformaCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			//controladorLinha.setPositionLinha (plataformaCima.gameObject.transform.position);
+				if (verificadorT >= 43 && verificadorT <= 50) {
+					Instantiate (TDireita, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+				if (verificadorT >= 51 && verificadorT <= 58) {
+					Instantiate (TEsquerda, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
 
-			if (verificadorT >= 43 && verificadorT <= 50) {
-				Instantiate (TDireita, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				direcaoFuturaX = 0;
+				direcaoFuturaY = 1;
 			}
-			if (verificadorT >= 51 && verificadorT <= 58) {
-				Instantiate (TEsquerda, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+
+			if (verificador > verificadorAleatorio && verificador <= verificadorAleatorio + 40) {	
+				posicaoX = posicaoX + tamanhoPlataformaDeitada;	
+				Instantiate (plataformaDireita, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
+				if (verificadorT >= 43 && verificadorT <= 50) {
+					Instantiate (TCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+				if (verificadorT >= 51 && verificadorT <= 58) {
+					Instantiate (TBaixo, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+
+				direcaoFuturaX = 1;
+				direcaoFuturaY = 0;
 			}
 
-			direcaoFuturaX = 0;
-			direcaoFuturaY = 1;
+			if (verificador > verificadorAleatorio + 40) {
+				posicaoX = posicaoX + tamanhoPlataformaEmpe;
+				posicaoY = posicaoY - tamanhoPlataformaEmpe;
+				Instantiate (plataformaBaixo, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
+
+				if (verificadorT >= 43 && verificadorT <= 50) {
+					Instantiate (TDireita, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+				if (verificadorT >= 51 && verificadorT <= 58) {
+					Instantiate (TEsquerda, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+
+				direcaoFuturaX = 0;
+				direcaoFuturaY = -1;
+			}
 		}
 
-		if (verificador > verificadorAleatorio && verificador <= verificadorAleatorio + 40) {	
-			posicaoX = posicaoX + tamanhoPlataformaDeitada;	
-			Instantiate (plataformaDireita, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
-			//controladorLinha.setPositionLinha (plataformaDireita.gameObject.transform.position);
+		//Indo para esqueda
+		if(controladorPlayer.DirecaoX() == -1){
 
-			if (verificadorT >= 43 && verificadorT <= 50) {
-				Instantiate (TCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			}
-			if (verificadorT >= 51 && verificadorT <= 58) {
-				Instantiate (TBaixo, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+			if (verificador <= verificadorAleatorio) {
+				posicaoX = posicaoX - tamanhoPlataformaEmpe;
+				posicaoY = posicaoY + tamanhoPlataformaEmpe;
+				Instantiate (plataformaCima, new Vector3 (posicaoX, posicaoY ), Quaternion.identity);
+
+				if (verificadorT >= 43 && verificadorT <= 50) {
+					Instantiate (TDireita, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+				if (verificadorT >= 51 && verificadorT <= 58) {
+					Instantiate (TEsquerda, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+
+				direcaoFuturaX = 0;
+				direcaoFuturaY = 1;
 			}
 
-			direcaoFuturaX = 1;
-			direcaoFuturaY = 0;
+			if (verificador > verificadorAleatorio && verificador <= verificadorAleatorio + 40) {	
+				posicaoX = posicaoX - tamanhoPlataformaDeitada;	
+				Instantiate (plataformaEsquerda, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
+
+				if (verificadorT >= 43 && verificadorT <= 50) {
+					Instantiate (TBaixo, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+				if (verificadorT >= 51 && verificadorT <= 58) {
+					Instantiate (TCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+
+				direcaoFuturaX = -1;
+				direcaoFuturaY = 0;
+			}
+
+			if (verificador > verificadorAleatorio + 40) {
+				posicaoX = posicaoX - tamanhoPlataformaEmpe;
+				posicaoY = posicaoY - tamanhoPlataformaEmpe;
+				Instantiate (plataformaBaixo, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
+
+				if (verificadorT >= 43 && verificadorT <= 50) {
+					Instantiate (TDireita, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+				if (verificadorT >= 51 && verificadorT <= 58) {
+					Instantiate (TEsquerda, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+
+				direcaoFuturaX = 0;
+				direcaoFuturaY = -1;
+			}
 		}
 
-		if (verificador > verificadorAleatorio + 40) {
-			posicaoX = posicaoX + tamanhoPlataformaEmpe;
-			posicaoY = posicaoY - tamanhoPlataformaEmpe;
-			Instantiate (plataformaBaixo, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
-			//controladorLinha.setPositionLinha (plataformaBaixo.gameObject.transform.position);
+		//Indo para cima
+		if (controladorPlayer.DirecaoY() == 1){
 
-			if (verificadorT >= 43 && verificadorT <= 50) {
-				Instantiate (TDireita, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			}
-			if (verificadorT >= 51 && verificadorT <= 58) {
-				Instantiate (TEsquerda, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			}
+			if (verificador <= verificadorAleatorio) {	
+				posicaoX = posicaoX - tamanhoPlataformaEmpe;
+				posicaoY = posicaoY + tamanhoPlataformaEmpe;
+				Instantiate (plataformaEsquerda, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
 
-			direcaoFuturaX = 0;
-			direcaoFuturaY = -1;
-		}
-	}
+				if (verificadorT >= 43 && verificadorT <= 50) {
+					Instantiate (TBaixo, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+				if (verificadorT >= 51 && verificadorT <= 58) {
+					Instantiate (TCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
 
-	//Indo para esqueda
-	if(controladorPlayer.DirecaoX() == -1){
-
-		if (verificador <= verificadorAleatorio) {
-			posicaoX = posicaoX - tamanhoPlataformaEmpe;
-			posicaoY = posicaoY + tamanhoPlataformaEmpe;
-			Instantiate (plataformaCima, new Vector3 (posicaoX, posicaoY ), Quaternion.identity);
-			//controladorLinha.setPositionLinha (plataformaCima.gameObject.transform.position);
-
-			if (verificadorT >= 43 && verificadorT <= 50) {
-				Instantiate (TDireita, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			}
-			if (verificadorT >= 51 && verificadorT <= 58) {
-				Instantiate (TEsquerda, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				direcaoFuturaX = -1;
+				direcaoFuturaY = 0;
 			}
 
-			direcaoFuturaX = 0;
-			direcaoFuturaY = 1;
-		}
+			if (verificador > verificadorAleatorio && verificador <= verificadorAleatorio + 40) {		
+				posicaoY = posicaoY + tamanhoPlataformaDeitada;
+				Instantiate (plataformaCima, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
 
-		if (verificador > verificadorAleatorio && verificador <= verificadorAleatorio + 40) {	
-			posicaoX = posicaoX - tamanhoPlataformaDeitada;	
-			Instantiate (plataformaEsquerda, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
-			//controladorLinha.setPositionLinha (plataformaEsquerda.gameObject.transform.position);
+				if (verificadorT >= 43 && verificadorT <= 50) {
+					Instantiate (TDireita, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+				if (verificadorT >= 51 && verificadorT <= 58) {
+					Instantiate (TEsquerda, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
 
-			if (verificadorT >= 43 && verificadorT <= 50) {
-				Instantiate (TBaixo, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				direcaoFuturaX = 0;
+				direcaoFuturaY = 1;
 			}
-			if (verificadorT >= 51 && verificadorT <= 58) {
-				Instantiate (TCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			}
 
-			direcaoFuturaX = -1;
-			direcaoFuturaY = 0;
+			if (verificador > verificadorAleatorio + 40) {
+				posicaoX = posicaoX + tamanhoPlataformaEmpe;
+				posicaoY = posicaoY + tamanhoPlataformaEmpe;
+				Instantiate (plataformaDireita, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
+
+				if (verificadorT >= 43 && verificadorT <= 50) {
+					Instantiate (TBaixo, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+				if (verificadorT >= 51 && verificadorT <= 58) {
+					Instantiate (TCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+
+				direcaoFuturaX = 1;
+				direcaoFuturaY = 0;
+			}
 		}
 
-		if (verificador > verificadorAleatorio + 40) {
-			posicaoX = posicaoX - tamanhoPlataformaEmpe;
-			posicaoY = posicaoY - tamanhoPlataformaEmpe;
-			Instantiate (plataformaBaixo, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
-			//controladorLinha.setPositionLinha (plataformaBaixo.gameObject.transform.position);
+		//Indo para baixo
+		if (controladorPlayer.DirecaoY() == -1){
 
-			if (verificadorT >= 43 && verificadorT <= 50) {
-				Instantiate (TDireita, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			}
-			if (verificadorT >= 51 && verificadorT <= 58) {
-				Instantiate (TEsquerda, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			}
+			if (verificador <= verificadorAleatorio) {	
+				posicaoX = posicaoX - tamanhoPlataformaEmpe;
+				posicaoY = posicaoY - tamanhoPlataformaEmpe;
+				Instantiate (plataformaEsquerda, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
 
-			direcaoFuturaX = 0;
-			direcaoFuturaY = -1;
-		}
-	}
+				if (verificadorT >= 43 && verificadorT <= 50) {
+					Instantiate (TBaixo, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+				if (verificadorT >= 51 && verificadorT <= 58) {
+					Instantiate (TCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
 
-	//Indo para cima
-	if (controladorPlayer.DirecaoY() == 1){
-
-		if (verificador <= verificadorAleatorio) {	
-			posicaoX = posicaoX - tamanhoPlataformaEmpe;
-			posicaoY = posicaoY + tamanhoPlataformaEmpe;
-			Instantiate (plataformaEsquerda, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
-			//controladorLinha.setPositionLinha (plataformaEsquerda.gameObject.transform.position);
-
-			if (verificadorT >= 43 && verificadorT <= 50) {
-				Instantiate (TBaixo, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			}
-			if (verificadorT >= 51 && verificadorT <= 58) {
-				Instantiate (TCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				direcaoFuturaX = -1;
+				direcaoFuturaY = 0;
 			}
 
-			direcaoFuturaX = -1;
-			direcaoFuturaY = 0;
-		}
+			if (verificador > verificadorAleatorio && verificador <= verificadorAleatorio + 40) {
+				posicaoY = posicaoY - tamanhoPlataformaDeitada;
+				Instantiate (plataformaBaixo, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
 
-		if (verificador > verificadorAleatorio && verificador <= verificadorAleatorio + 40) {		
-			posicaoY = posicaoY + tamanhoPlataformaDeitada;
-			Instantiate (plataformaCima, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
-			//controladorLinha.setPositionLinha (plataformaCima.gameObject.transform.position);
+				if (verificadorT >= 43 && verificadorT <= 50) {
+					Instantiate (TDireita, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+				if (verificadorT >= 51 && verificadorT <= 58) {
+					Instantiate (TEsquerda, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
 
-			if (verificadorT >= 43 && verificadorT <= 50) {
-				Instantiate (TDireita, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			}
-			if (verificadorT >= 51 && verificadorT <= 58) {
-				Instantiate (TEsquerda, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			}
-
-			direcaoFuturaX = 0;
-			direcaoFuturaY = 1;
-		}
-
-		if (verificador > verificadorAleatorio + 40) {
-			posicaoX = posicaoX + tamanhoPlataformaEmpe;
-			posicaoY = posicaoY + tamanhoPlataformaEmpe;
-			Instantiate (plataformaDireita, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
-			//controladorLinha.setPositionLinha (plataformaDireita.gameObject.transform.position);
-
-			if (verificadorT >= 43 && verificadorT <= 50) {
-				Instantiate (TBaixo, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			}
-			if (verificadorT >= 51 && verificadorT <= 58) {
-				Instantiate (TCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				direcaoFuturaX = 0;
+				direcaoFuturaY = -1;
 			}
 
-			direcaoFuturaX = 1;
-			direcaoFuturaY = 0;
+			if (verificador > verificadorAleatorio + 40) {
+				posicaoX = posicaoX + tamanhoPlataformaEmpe;
+				posicaoY = posicaoY - tamanhoPlataformaEmpe;
+				Instantiate (plataformaDireita, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
+				//controladorLinha.setPositionLinha (plataformaDireita.gameObject.transform.position);
 
-		}
-	}
+				if (verificadorT >= 43 && verificadorT <= 50) {
+					Instantiate (TBaixo, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
+				if (verificadorT >= 51 && verificadorT <= 58) {
+					Instantiate (TCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				}
 
-	//Indo para baixo
-	if (controladorPlayer.DirecaoY() == -1){
-
-		if (verificador <= verificadorAleatorio) {	
-			posicaoX = posicaoX - tamanhoPlataformaEmpe;
-			posicaoY = posicaoY - tamanhoPlataformaEmpe;
-			Instantiate (plataformaEsquerda, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
-			//controladorLinha.setPositionLinha (plataformaEsquerda.gameObject.transform.position);
-
-			if (verificadorT >= 43 && verificadorT <= 50) {
-				Instantiate (TBaixo, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
+				direcaoFuturaX = 1;
+				direcaoFuturaY = 0;
 			}
-			if (verificadorT >= 51 && verificadorT <= 58) {
-				Instantiate (TCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			}
-
-
-			direcaoFuturaX = -1;
-			direcaoFuturaY = 0;
-		}
-
-		if (verificador > verificadorAleatorio && verificador <= verificadorAleatorio + 40) {
-			posicaoY = posicaoY - tamanhoPlataformaDeitada;
-			Instantiate (plataformaBaixo, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
-			//controladorLinha.setPositionLinha (plataformaBaixo.gameObject.transform.position);
-
-			if (verificadorT >= 43 && verificadorT <= 50) {
-				Instantiate (TDireita, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			}
-			if (verificadorT >= 51 && verificadorT <= 58) {
-				Instantiate (TEsquerda, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			}
-
-			direcaoFuturaX = 0;
-			direcaoFuturaY = -1;
-		}
-
-		if (verificador > verificadorAleatorio + 40) {
-			posicaoX = posicaoX + tamanhoPlataformaEmpe;
-			posicaoY = posicaoY - tamanhoPlataformaEmpe;
-			Instantiate (plataformaDireita, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
-			//controladorLinha.setPositionLinha (plataformaDireita.gameObject.transform.position);
-
-			if (verificadorT >= 43 && verificadorT <= 50) {
-				Instantiate (TBaixo, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			}
-			if (verificadorT >= 51 && verificadorT <= 58) {
-				Instantiate (TCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
-			}
-
-
-			direcaoFuturaX = 1;
-			direcaoFuturaY = 0;
 		}
 	}
-
-}
-
-		
-
-	void OnTriggerEnter2D(Collider2D coll)
-	{			
-		
-	}
-
 }

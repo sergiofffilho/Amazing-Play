@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlataformaDestroy : MonoBehaviour {
-	
+public class PlataformaDestroy : MonoBehaviour {	
 	ControladorPlayer controladorPlayer;
 
 	void Start (){
@@ -17,6 +16,4 @@ public class PlataformaDestroy : MonoBehaviour {
 			Destroy (transform.parent.gameObject);
 		}
 	}
-
-
 }

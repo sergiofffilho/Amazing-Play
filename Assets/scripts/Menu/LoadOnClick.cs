@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class LoadOnClick : MonoBehaviour {
- 	
 	AudioSource[] controladorAudio;
 
 	public GameObject loadingImage;
@@ -30,5 +29,4 @@ public class LoadOnClick : MonoBehaviour {
 			yield return null;
 		}
 	}
-
 }

@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class ControladorTutorial : MonoBehaviour {
-
 	public GameObject Panel1;
 	public GameObject Panel2;
 	public GameObject Panel3;
@@ -23,6 +22,7 @@ public class ControladorTutorial : MonoBehaviour {
 	GameObject audio;
 
 	int i;
+
 	// Use this for initialization
 	void Start () {
 		audio = GameObject.FindGameObjectWithTag ("Audio");
@@ -30,17 +30,14 @@ public class ControladorTutorial : MonoBehaviour {
 		i = 1;
 		Panel1.SetActive(true);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	public void avacarTutorial(int panel){			
 		i += panel;
-		if (i > 13)
+
+		if (i > 13) {
 			i = 13;
-		Debug.Log (i);
+		}
+
 		switch (i){
 			case 2:
 				Panel1.SetActive (false);
@@ -91,15 +88,15 @@ public class ControladorTutorial : MonoBehaviour {
 				Panel13.SetActive (true);
 				break;			
 		}
-
-
 	}
 
 	public void voltarTutorial(int panel){		
 		i -= panel;
-		if (i < 1)
+
+		if (i < 1) {
 			i = 1; 
-		Debug.Log (i);
+		}
+
 		switch (i){
 			case 1:
 				Panel1.SetActive (true);
