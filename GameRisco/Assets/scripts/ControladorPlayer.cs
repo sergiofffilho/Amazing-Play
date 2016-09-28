@@ -44,8 +44,16 @@ public class ControladorPlayer : MonoBehaviour{
 	int colisaoPlat;
 
 	bool isAlive;
+	bool podeAnimarMorte;
+	public float velocidadeGameOver;
+
+	public Transform particulaColisaoT;
+
+	GameObject player;
+
 
 	void Awake(){
+		podeAnimarMorte = false;
 		velocity.x = 1;
 	}
 
@@ -63,6 +71,8 @@ public class ControladorPlayer : MonoBehaviour{
 		velocidade = 2f;
         pontuacao = 0;
 
+		player = GameObject.FindGameObjectWithTag ("player");
+
 		particula = GameObject.FindGameObjectWithTag ("controladorLinha").GetComponent<ParticleSystem> ();
       
 		controladorMenu = GetComponent < ControladorMenu > ();
@@ -73,7 +83,7 @@ public class ControladorPlayer : MonoBehaviour{
 		controladorAudio = GameObject.FindGameObjectWithTag ("Audio").GetComponent<ControladorAudio> ();
 		controladorMorte =  GameObject.FindGameObjectWithTag ("Morte").GetComponent<ControladorMorte> ();
 		controladorGravidade =  GetComponent<ControladorGravidade>();
-		isAlive = true;      
+		isAlive = true; 
 
     }
 
@@ -107,8 +117,9 @@ public class ControladorPlayer : MonoBehaviour{
 					transform.Translate (Vector3.right * gravidade * Time.deltaTime);
 				}
 			}
-
-			calcularVelocidade ();
+			if (!podeAnimarMorte) {
+				calcularVelocidade ();
+			}
 
 			if (detectSwipe) {
 				DetectSwipe ();
@@ -128,9 +139,15 @@ public class ControladorPlayer : MonoBehaviour{
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-		if (coll.gameObject.CompareTag ("T")) {		
+		if (coll.gameObject.CompareTag ("T")) {
 			Destroy (coll.gameObject);
-			gameOver ();
+			player.SetActive (false);
+			podeAnimarMorte = true;
+			velocidadeGameOver = velocidade;
+			velocidade = 0;
+			Instantiate (particulaColisaoT, new Vector3(0,2,0), Quaternion.identity);
+			gameOver();
+			ControladorAnimacaoMorteT._instance.StartCoroutine("AnimarMorte");
 		}
 
         if (coll.gameObject.CompareTag("platCima")) {
@@ -442,11 +459,12 @@ public class ControladorPlayer : MonoBehaviour{
 		if(getIsAlive()){			
 			if (Vector3.Distance(gameObject.transform.position, controladorMorte.gameObject.transform.position) > 20){	
 				gameOver ();
+				SceneManager.LoadScene("GameOver",LoadSceneMode.Additive);
 			}				
 		}
 	}
 
-	void gameOver(){
+	public void gameOver(){
 		
 		PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
 
@@ -464,7 +482,7 @@ public class ControladorPlayer : MonoBehaviour{
 		transform.position = new Vector3 (0,2,0);
 
 		isAlive = false;
-		SceneManager.LoadScene("GameOver",LoadSceneMode.Additive);
+		//SceneManager.LoadScene("GameOver",LoadSceneMode.Additive);
 	}
 
 	public bool getIsAlive(){

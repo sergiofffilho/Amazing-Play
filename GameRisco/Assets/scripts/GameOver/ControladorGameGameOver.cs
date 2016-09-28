@@ -10,6 +10,7 @@ public class ControladorGameGameOver : MonoBehaviour {
 	GameObject audio;
 
 	ControladorPlayer controladorPlayer;
+	GameObject pingo;
 	ControladorPlataformas controladorPlataforma;
 	ControladorAudio ControladorAudio;
 
@@ -26,6 +27,7 @@ public class ControladorGameGameOver : MonoBehaviour {
 
 	public GameObject loadingImage;
 	private AsyncOperation async;
+
 
 	// Use this for initialization
 	void Start () {
@@ -61,6 +63,14 @@ public class ControladorGameGameOver : MonoBehaviour {
 		}
 
 		SceneManager.SetActiveScene (SceneManager.GetSceneByName("GameOver"));
+
+		Transform[] trans = GameObject.Find ("Player").GetComponentsInChildren<Transform> (true);
+		foreach (Transform t in trans) {
+			if (t.gameObject.name == "Animacao") {
+				pingo = t.gameObject;
+			}
+		}
+		pingo.SetActive (true);
 	}
 
 	void Update () {
@@ -68,6 +78,9 @@ public class ControladorGameGameOver : MonoBehaviour {
 			Application.Quit();
 		}
 	}
+
+
+
 
 	public void returnMenu(){
 		loadingImage.SetActive(true);
@@ -89,6 +102,7 @@ public class ControladorGameGameOver : MonoBehaviour {
 
 	public void continueGame(){
 		if(PlayerPrefs.GetInt("continue") == 0){
+			
 			ShowRewardedAd();
 		}
 	}
@@ -107,8 +121,8 @@ public class ControladorGameGameOver : MonoBehaviour {
 		switch (result)
 		{
 		case ShowResult.Finished:
-			Debug.Log("The ad was successfully shown.");
-			SceneManager.UnloadScene("GameOver");
+			Debug.Log ("The ad was successfully shown.");
+			SceneManager.UnloadScene ("GameOver");
 			controladorPlayer.detectSwipe = true;
 			controladorPlayer.setIsAlive (true);
 			particula.maxParticles=10000;
