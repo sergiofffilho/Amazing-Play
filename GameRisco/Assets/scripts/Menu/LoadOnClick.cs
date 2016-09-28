@@ -25,7 +25,6 @@ public class LoadOnClick : MonoBehaviour {
 		async = Application.LoadLevelAsync(level);
 		while (!async.isDone)
 		{
-			Debug.Log (Time.deltaTime);
 			yield return null;
 		}
 	}

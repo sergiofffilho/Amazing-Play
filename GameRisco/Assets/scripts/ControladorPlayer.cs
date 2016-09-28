@@ -73,7 +73,8 @@ public class ControladorPlayer : MonoBehaviour{
 		controladorAudio = GameObject.FindGameObjectWithTag ("Audio").GetComponent<ControladorAudio> ();
 		controladorMorte =  GameObject.FindGameObjectWithTag ("Morte").GetComponent<ControladorMorte> ();
 		controladorGravidade =  GetComponent<ControladorGravidade>();
-		isAlive = true;            
+		isAlive = true;      
+
     }
 
 	void Update (){

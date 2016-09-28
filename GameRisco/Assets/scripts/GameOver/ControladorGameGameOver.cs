@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Advertisements;
 
 public class ControladorGameGameOver : MonoBehaviour {
 	public GameObject RecordeLigado;
@@ -88,6 +89,25 @@ public class ControladorGameGameOver : MonoBehaviour {
 
 	public void continueGame(){
 		if(PlayerPrefs.GetInt("continue") == 0){
+			ShowRewardedAd();
+		}
+	}
+
+	public void ShowRewardedAd()
+	{
+		if (Advertisement.IsReady("rewardedVideo"))
+		{
+			ShowOptions options = new ShowOptions { resultCallback = HandleShowResult };
+			Advertisement.Show("rewardedVideo", options);
+		}
+	}
+
+	private void HandleShowResult(ShowResult result)
+	{
+		switch (result)
+		{
+		case ShowResult.Finished:
+			Debug.Log("The ad was successfully shown.");
 			SceneManager.UnloadScene("GameOver");
 			controladorPlayer.detectSwipe = true;
 			controladorPlayer.setIsAlive (true);
@@ -95,8 +115,17 @@ public class ControladorGameGameOver : MonoBehaviour {
 			ControladorAudio.playGame();
 			pontuacaoInGame.SetActive (true);
 			PlayerPrefs.SetInt ("continue", 1);
+			break;
+		case ShowResult.Skipped:
+			Debug.Log("The ad was skipped before reaching the end.");
+			break;
+		case ShowResult.Failed:
+			Debug.LogError("The ad failed to be shown.");
+			break;
 		}
 	}
+
+
 
 	public void buttonRate(){
 		Application.OpenURL("http://unity3d.com/");

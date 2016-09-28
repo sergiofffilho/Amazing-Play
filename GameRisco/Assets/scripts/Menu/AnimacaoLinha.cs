@@ -24,9 +24,5 @@ public class AnimacaoLinha : MonoBehaviour {
 			renderer.sharedMaterial.SetTextureOffset ("_MainTex", offset);
 		} 
     }
-    
-    void OnDisable () {
-        renderer.sharedMaterial.SetTextureOffset ("_MainTex", savedOffset);
-    }
 }
     

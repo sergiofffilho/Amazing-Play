@@ -17,9 +17,5 @@ public class AnimacaoLinhaMenu : MonoBehaviour {
 		Vector2 offset = new Vector2 (x, savedOffset.y);
         renderer.sharedMaterial.SetTextureOffset ("_MainTex", offset);
     }
-    
-    void OnDisable () {
-        renderer.sharedMaterial.SetTextureOffset ("_MainTex", savedOffset);
-    }
 }
     

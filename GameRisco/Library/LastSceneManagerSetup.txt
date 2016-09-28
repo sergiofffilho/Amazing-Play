@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Menu 05.09.16.unity
+  isLoaded: 1
+  isActive: 1
