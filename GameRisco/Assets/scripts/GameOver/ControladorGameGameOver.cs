@@ -79,9 +79,6 @@ public class ControladorGameGameOver : MonoBehaviour {
 		}
 	}
 
-
-
-
 	public void returnMenu(){
 		loadingImage.SetActive(true);
 		int level = 0;
@@ -101,8 +98,8 @@ public class ControladorGameGameOver : MonoBehaviour {
 	}
 
 	public void continueGame(){
-		if(PlayerPrefs.GetInt("continue") == 0){
-			
+		
+		if(PlayerPrefs.GetInt("continue") == 0){			
 			ShowRewardedAd();
 		}
 	}

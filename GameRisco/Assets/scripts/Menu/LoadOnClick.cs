@@ -19,7 +19,7 @@ public class LoadOnClick : MonoBehaviour {
 		PlayerPrefs.SetInt ("continue", 0);
 		Application.LoadLevel (level);
  	}
-
+		
 	IEnumerator loadingPlay (int level)
 	{
 		async = Application.LoadLevelAsync(level);

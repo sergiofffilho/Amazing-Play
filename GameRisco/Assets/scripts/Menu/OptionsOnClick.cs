@@ -9,6 +9,9 @@ public class OptionsOnClick : MonoBehaviour {
 	public GameObject recordeLigado;
 	public GameObject recordeDesligado;
 
+	public GameObject loadingImage;
+	private AsyncOperation async;
+
 	void Start(){
 		if (PlayerPrefs.GetInt ("mute") == 1) {
 			audioImaegeLigado.SetActive(false);
@@ -27,7 +30,17 @@ public class OptionsOnClick : MonoBehaviour {
 	}
 
 	public void abrirTutorial(int level){
-		Application.LoadLevel (level);
+		loadingImage.SetActive(true);
+		StartCoroutine( loadingPlay (level));
+	}
+
+	IEnumerator loadingPlay (int level)
+	{
+		async = Application.LoadLevelAsync(level);
+		while (!async.isDone)
+		{
+			yield return null;
+		}
 	}
 
     public void LoadClick(int test){

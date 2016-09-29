@@ -141,11 +141,6 @@ public class ControladorPlayer : MonoBehaviour{
     {
 		if (coll.gameObject.CompareTag ("T")) {
 			Destroy (coll.gameObject);
-			player.SetActive (false);
-			podeAnimarMorte = true;
-			velocidadeGameOver = velocidade;
-			velocidade = 0;
-			Instantiate (particulaColisaoT, new Vector3(0,2,0), Quaternion.identity);
 			gameOver();
 			ControladorAnimacaoMorteT._instance.StartCoroutine("AnimarMorte");
 		}
@@ -459,13 +454,18 @@ public class ControladorPlayer : MonoBehaviour{
 		if(getIsAlive()){			
 			if (Vector3.Distance(gameObject.transform.position, controladorMorte.gameObject.transform.position) > 20){	
 				gameOver ();
-				SceneManager.LoadScene("GameOver",LoadSceneMode.Additive);
+				ControladorAnimacaoMorteT._instance.StartCoroutine("AnimarMorte");
 			}				
 		}
 	}
 
 	public void gameOver(){
-		
+		player.SetActive (false);
+		podeAnimarMorte = true;
+		velocidadeGameOver = velocidade;
+		velocidade = 0;
+		Instantiate (particulaColisaoT, new Vector3(0,2,0), Quaternion.identity);
+
 		PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
 
 		if (pontuacao > PlayerPrefs.GetFloat ("Recorde")) {
