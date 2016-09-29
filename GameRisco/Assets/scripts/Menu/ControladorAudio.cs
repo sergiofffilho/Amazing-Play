@@ -4,14 +4,21 @@ using System.Collections;
 public class ControladorAudio : MonoBehaviour {
 	OptionsOnClick optionsOnClick;
 
+	public static ControladorAudio _instance;
+
 	public AudioSource[] sounds;
 	public AudioSource menu;
 	public AudioSource game;
 	public AudioSource gameOver;
 	public AudioSource pingo;
 	public AudioSource move;
+	public AudioSource recorde;
 
 	public bool derrota;
+
+	void Awake(){
+		_instance = this;
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -23,9 +30,11 @@ public class ControladorAudio : MonoBehaviour {
 		gameOver = sounds [2];
 		pingo = sounds [3];
 		move = sounds [4];
+		recorde = sounds[5];
 		derrota = false;
+//		PlayerPrefs.SetFloat ("Recorde", 0);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		if (PlayerPrefs.GetInt("mute") == 0 && !menu.isPlaying && !game.isPlaying && !derrota) {
@@ -62,5 +71,10 @@ public class ControladorAudio : MonoBehaviour {
 
 	public void playGame(){
 		game.Play ();
+	}
+		
+	public void playRecord()
+	{	
+		recorde.Play ();
 	}
 }

@@ -45,6 +45,7 @@ public class ControladorPlayer : MonoBehaviour{
 
 	bool isAlive;
 	bool podeAnimarMorte;
+	bool podeTocarRecord;
 	public float velocidadeGameOver;
 
 	public Transform particulaColisaoT;
@@ -85,15 +86,17 @@ public class ControladorPlayer : MonoBehaviour{
 		controladorGravidade =  GetComponent<ControladorGravidade>();
 		isAlive = true; 
 
+		podeTocarRecord = true;
+
     }
 
 	void Update (){
-		//ResetarPosicoes (cima, baixo,direita,esquerda);
 		posicaoVelha = transform.position;
 		verificarDistancia ();
 
 		if (getIsAlive()) {
 			calcularPontuacao ();
+
 			transform.Translate (velocity * velocidade * Time.deltaTime);
 
 			if (DirecaoX () != 0) {
@@ -275,6 +278,12 @@ public class ControladorPlayer : MonoBehaviour{
 
 		aumento= aumento + 1;
 		pontuacao = aumento + pontuacao;
+		if (pontuacao >= PlayerPrefs.GetFloat ("Recorde")){
+			if (podeTocarRecord) {
+				controladorAudio.playRecord ();
+				podeTocarRecord = false;
+			}
+		}
 	}
 
 	public void calcularVelocidade(){
