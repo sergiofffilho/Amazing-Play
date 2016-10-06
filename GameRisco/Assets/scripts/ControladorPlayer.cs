@@ -473,7 +473,7 @@ public class ControladorPlayer : MonoBehaviour{
 		podeAnimarMorte = true;
 		velocidadeGameOver = velocidade;
 		velocidade = 0;
-		Instantiate (particulaColisaoT, new Vector3(0,2,0), Quaternion.identity);
+		Instantiate (particulaColisaoT, new Vector3(0,2.2f,0), Quaternion.identity);
 
 		PlayerPrefs.SetFloat ("Pontuacao", pontuacao);
 
@@ -487,8 +487,8 @@ public class ControladorPlayer : MonoBehaviour{
 		estado = true;
 
 		particula.maxParticles = 0;
-		controladorMorte.transform.position = new Vector3(0,2,0);
-		transform.position = new Vector3 (0,2,0);
+		controladorMorte.transform.position = new Vector3(0,2.2f,0);
+		transform.position = new Vector3 (0,2.2f,0);
 
 		isAlive = false;
 		//SceneManager.LoadScene("GameOver",LoadSceneMode.Additive);
