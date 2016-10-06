@@ -73,8 +73,12 @@ public class ControladorAudio : MonoBehaviour {
 		game.Play ();
 	}
 		
-	public void playRecord()
+	IEnumerator playRecord()
 	{	
+		game.volume = 0.4f;
 		recorde.Play ();
+		yield return new WaitForSeconds(5.0f);
+		game.volume = 1;
+		recorde.volume = 0.4f;
 	}
 }

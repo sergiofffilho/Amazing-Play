@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ControladorTutorial : MonoBehaviour {
 	public GameObject Panel1;
@@ -16,6 +17,14 @@ public class ControladorTutorial : MonoBehaviour {
 	public GameObject Panel12;
 	public GameObject Panel13;
 
+	Image botaoVoltar;
+	Image botaoAvancar;
+
+	Color botaoVoltar1;
+	Color botaoVoltar2;
+	Color botaoAvancar1;
+	Color botaoAvancar2;
+
 	public GameObject loadingImage;
 	private AsyncOperation async;
 
@@ -29,6 +38,21 @@ public class ControladorTutorial : MonoBehaviour {
 
 		i = 1;
 		Panel1.SetActive(true);
+
+		botaoAvancar = GameObject.FindGameObjectWithTag ("botaoAvancar").GetComponent<Image>();
+		botaoVoltar = GameObject.FindGameObjectWithTag ("botaoVoltar").GetComponent<Image>();
+
+		botaoVoltar1 = botaoVoltar.color;
+		botaoVoltar2 = botaoVoltar.color;
+		botaoVoltar1.a = 0.1f;
+		botaoVoltar2.a = 1;
+		botaoVoltar.color = botaoVoltar1;
+
+		botaoAvancar1 = botaoAvancar.color;
+		botaoAvancar2 = botaoAvancar.color;
+		botaoAvancar1.a = 0.1f;
+		botaoAvancar2.a = 1;
+
 	}
 
 	public void avacarTutorial(int panel){			
@@ -42,6 +66,7 @@ public class ControladorTutorial : MonoBehaviour {
 			case 2:
 				Panel1.SetActive (false);
 				Panel2.SetActive (true);
+				botaoVoltar.color = botaoVoltar2;
 				break;
 			case 3:
 				Panel2.SetActive (false);
@@ -86,7 +111,8 @@ public class ControladorTutorial : MonoBehaviour {
 			case 13:
 				Panel12.SetActive (false);
 				Panel13.SetActive (true);
-				break;			
+				botaoAvancar.color = botaoAvancar1;
+					break;			
 		}
 	}
 
@@ -101,6 +127,7 @@ public class ControladorTutorial : MonoBehaviour {
 			case 1:
 				Panel1.SetActive (true);
 				Panel2.SetActive (false);
+				botaoVoltar.color = botaoVoltar1;
 				break;
 			case 2:
 				Panel3.SetActive (false);
@@ -145,10 +172,12 @@ public class ControladorTutorial : MonoBehaviour {
 			case 12:
 				Panel13.SetActive (false);
 				Panel12.SetActive (true);
+				botaoAvancar.color = botaoAvancar2;
 				break;
-			case 13:				
-				Panel13.SetActive (true);
-				break;			
+//			case 13:				
+//				Panel13.SetActive (true);
+//				botaoAvancar.color = botaoAvancar2;
+//				break;			
 		}
 
 	}
