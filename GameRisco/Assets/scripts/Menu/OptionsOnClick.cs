@@ -60,7 +60,6 @@ public class OptionsOnClick : MonoBehaviour {
     }
 
 	public void ativarTelaRecord(int test){		
-		
 		if (test == 1){	
 			
 			recorde.SetActive(true);
@@ -72,6 +71,10 @@ public class OptionsOnClick : MonoBehaviour {
 			recordeLigado.SetActive(true);
 			recordeDesligado.SetActive(false);
 		}
+	}
+
+	public void zerarRecord(){
+		PlayerPrefs.SetFloat ("Recorde", 0);
 	}
 
 	public void buttonRate(){

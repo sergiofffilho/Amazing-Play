@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Advertisements;
@@ -28,6 +29,8 @@ public class ControladorGameGameOver : MonoBehaviour {
 	public GameObject loadingImage;
 	private AsyncOperation async;
 
+	public GameObject painelContinue;
+	GameObject botaoCancelarAds;
 
 	// Use this for initialization
 	void Start () {
@@ -71,6 +74,8 @@ public class ControladorGameGameOver : MonoBehaviour {
 			}
 		}
 		pingo.SetActive (true);
+
+		botaoCancelarAds = GameObject.FindGameObjectWithTag ("cancelarAds");
 	}
 
 	void Update () {
@@ -98,9 +103,19 @@ public class ControladorGameGameOver : MonoBehaviour {
 	}
 
 	public void continueGame(){
-		
-		if(PlayerPrefs.GetInt("continue") == 0){			
-			ShowRewardedAd();
+		StartCoroutine(checkInternetConnection((isConnected)=>{
+		}));
+	}
+
+	public void cancelarAds(){
+		painelContinue.SetActive (false);
+	}
+
+	public void getAds(){
+		if (Advertisement.IsReady("rewardedVideo"))
+		{
+			ShowOptions options = new ShowOptions { resultCallback = HandleShowResult };
+			Advertisement.Show("rewardedVideo", options);
 		}
 	}
 
@@ -115,8 +130,10 @@ public class ControladorGameGameOver : MonoBehaviour {
 
 	private void HandleShowResult(ShowResult result)
 	{
+		Debug.Log (result.ToString());
 		switch (result)
 		{
+
 		case ShowResult.Finished:
 			Debug.Log ("The ad was successfully shown.");
 			SceneManager.UnloadScene ("GameOver");
@@ -136,9 +153,31 @@ public class ControladorGameGameOver : MonoBehaviour {
 		}
 	}
 
-
-
 	public void buttonRate(){
 		Application.OpenURL("http://unity3d.com/");
 	}
+
+	//--------------------------------------------------------------
+	//Check Internet
+
+	IEnumerator checkInternetConnection(Action<bool> action){
+		WWW www = new WWW("http://google.com");
+		yield return www;
+		Debug.Log (action);
+		if (www.error != null) {
+			Debug.Log ("desligado");
+			SceneManager.UnloadScene ("GameOver");
+			controladorPlayer.detectSwipe = true;
+			controladorPlayer.setIsAlive (true);
+			particula.maxParticles=10000;
+			ControladorAudio.playGame();
+			pontuacaoInGame.SetActive (true);
+			PlayerPrefs.SetInt ("continue", 1);
+			action (false);
+		} else {
+			Debug.Log ("ligado");
+			painelContinue.SetActive (true);
+			action (true);
+		}
+	} 
 }

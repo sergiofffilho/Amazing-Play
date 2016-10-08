@@ -278,7 +278,7 @@ public class ControladorPlayer : MonoBehaviour{
 
 		aumento= aumento + 1;
 		pontuacao = aumento + pontuacao;
-		if (pontuacao >= PlayerPrefs.GetFloat ("Recorde")){
+		if (pontuacao > PlayerPrefs.GetFloat ("Recorde")){
 			if (podeTocarRecord && PlayerPrefs.GetFloat("Recorde") != 0) {
 				ControladorAudio._instance.StartCoroutine("playRecord");
 				podeTocarRecord = false;

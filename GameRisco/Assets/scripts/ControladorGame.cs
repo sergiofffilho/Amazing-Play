@@ -8,6 +8,9 @@ public class ControladorGameMenu : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		textRecorde = GameObject.FindGameObjectWithTag ("Recorde").GetComponent<Text> ();
-		textRecorde.text = PlayerPrefs.GetFloat ("Recorde").ToString();
 	}    
+	void Update(){
+		textRecorde.text = PlayerPrefs.GetFloat ("Recorde").ToString();
+
+	}
 }
