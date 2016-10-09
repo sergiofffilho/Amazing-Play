@@ -78,6 +78,6 @@ public class OptionsOnClick : MonoBehaviour {
 	}
 
 	public void buttonRate(){
-		Application.OpenURL("http://unity3d.com/");
+		Application.OpenURL("https://play.google.com/store/apps/details?id=com.amazingplay.risco&hl=pt_BR");
 	}
 }

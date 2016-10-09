@@ -32,6 +32,8 @@ public class ControladorGameGameOver : MonoBehaviour {
 	public GameObject painelContinue;
 	GameObject botaoCancelarAds;
 
+	int verificadorAleatorio;
+
 	// Use this for initialization
 	void Start () {
 		particula = GameObject.FindGameObjectWithTag ("controladorLinha").GetComponent<ParticleSystem> ();
@@ -76,6 +78,8 @@ public class ControladorGameGameOver : MonoBehaviour {
 		pingo.SetActive (true);
 
 		botaoCancelarAds = GameObject.FindGameObjectWithTag ("cancelarAds");
+
+		verificadorAleatorio = UnityEngine.Random.Range(0,100);
 	}
 
 	void Update () {
@@ -114,15 +118,8 @@ public class ControladorGameGameOver : MonoBehaviour {
 	public void getAds(){
 		if (Advertisement.IsReady("rewardedVideo"))
 		{
-			ShowOptions options = new ShowOptions { resultCallback = HandleShowResult };
-			Advertisement.Show("rewardedVideo", options);
-		}
-	}
-
-	public void ShowRewardedAd()
-	{
-		if (Advertisement.IsReady("rewardedVideo"))
-		{
+			painelContinue.SetActive (false);
+			loadingImage.SetActive(true);
 			ShowOptions options = new ShowOptions { resultCallback = HandleShowResult };
 			Advertisement.Show("rewardedVideo", options);
 		}
@@ -130,31 +127,23 @@ public class ControladorGameGameOver : MonoBehaviour {
 
 	private void HandleShowResult(ShowResult result)
 	{
-		Debug.Log (result.ToString());
 		switch (result)
 		{
-
-		case ShowResult.Finished:
-			Debug.Log ("The ad was successfully shown.");
-			SceneManager.UnloadScene ("GameOver");
-			controladorPlayer.detectSwipe = true;
-			controladorPlayer.setIsAlive (true);
-			particula.maxParticles=10000;
-			ControladorAudio.playGame();
-			pontuacaoInGame.SetActive (true);
-			PlayerPrefs.SetInt ("continue", 1);
-			break;
-		case ShowResult.Skipped:
-			Debug.Log("The ad was skipped before reaching the end.");
-			break;
-		case ShowResult.Failed:
-			Debug.LogError("The ad failed to be shown.");
-			break;
+			case ShowResult.Finished:
+				Debug.Log ("The ad was successfully shown.");
+				voltarInGame ();
+				break;
+			case ShowResult.Skipped:
+				Debug.Log("The ad was skipped before reaching the end.");
+				break;
+			case ShowResult.Failed:
+				Debug.LogError("The ad failed to be shown.");
+				break;
 		}
 	}
 
 	public void buttonRate(){
-		Application.OpenURL("http://unity3d.com/");
+		Application.OpenURL("https://play.google.com/store/apps/details?id=com.amazingplay.risco&hl=pt_BR");
 	}
 
 	//--------------------------------------------------------------
@@ -165,19 +154,31 @@ public class ControladorGameGameOver : MonoBehaviour {
 		yield return www;
 		Debug.Log (action);
 		if (www.error != null) {
-			Debug.Log ("desligado");
-			SceneManager.UnloadScene ("GameOver");
-			controladorPlayer.detectSwipe = true;
-			controladorPlayer.setIsAlive (true);
-			particula.maxParticles=10000;
-			ControladorAudio.playGame();
-			pontuacaoInGame.SetActive (true);
-			PlayerPrefs.SetInt ("continue", 1);
+			if (PlayerPrefs.GetInt ("continue") == 0) {
+				Debug.Log ("desligado");
+				voltarInGame ();
+			}
 			action (false);
 		} else {
-			Debug.Log ("ligado");
-			painelContinue.SetActive (true);
+			if (PlayerPrefs.GetInt ("continue") == 0) {				
+				Debug.Log ("ligado");
+				if (verificadorAleatorio >= 20 && verificadorAleatorio <= 50) {
+					painelContinue.SetActive (true);
+				} else {
+					voltarInGame ();
+				}
+			}
 			action (true);
 		}
 	} 
+
+	void voltarInGame(){
+		SceneManager.UnloadScene ("GameOver");
+		controladorPlayer.detectSwipe = true;
+		controladorPlayer.setIsAlive (true);
+		particula.maxParticles = 10000;
+		ControladorAudio.playGame ();
+		pontuacaoInGame.SetActive (true);
+		PlayerPrefs.SetInt ("continue", 1);
+	}
 }
