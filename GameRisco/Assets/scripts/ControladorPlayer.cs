@@ -106,7 +106,7 @@ public class ControladorPlayer : MonoBehaviour{
 				if (solo) {
 					gravidade = 0;
 				} else {
-					transform.Translate (Vector3.up * gravidade * Time.deltaTime);
+					transform.Translate (Vector3.up * gravidade * Time.deltaTime*0.8f);
 				}			
 			}
 
@@ -117,7 +117,7 @@ public class ControladorPlayer : MonoBehaviour{
 				if (solo) {
 					gravidade = 0;
 				} else {
-					transform.Translate (Vector3.right * gravidade * Time.deltaTime);
+					transform.Translate (Vector3.right * gravidade * Time.deltaTime*0.8f);
 				}
 			}
 			if (!podeAnimarMorte) {
