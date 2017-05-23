@@ -70,3 +70,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+GameRisco/Assets/FacebookSDK/Plugins/iOS/*
