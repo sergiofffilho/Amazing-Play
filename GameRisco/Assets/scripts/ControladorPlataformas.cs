@@ -34,8 +34,8 @@ public class ControladorPlataformas : MonoBehaviour {
 	void Start () {
 		tamanhoPlataformaEmpe = 4.4f;
 		tamanhoPlataformaDeitada =10;
-		posicaoX = 3;
-		posicaoY = 1.3f;
+		posicaoX = 3.5f;
+		posicaoY = 1f;
 
 		//salva pos. plaer no vector3
 		controladorPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<ControladorPlayer>();
