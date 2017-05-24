@@ -75,10 +75,12 @@ public class ControladorAudio : MonoBehaviour {
 		
 	IEnumerator playRecord()
 	{	
-		game.volume = 0.4f;
-		recorde.Play ();
-		yield return new WaitForSeconds(5.0f);
-		game.volume = 1;
-		recorde.volume = 0.4f;
+		if(!(PlayerPrefs.GetInt("mute") == 1)){
+			game.volume = 0.4f;
+			recorde.Play ();
+			yield return new WaitForSeconds(5.0f);
+			game.volume = 1;
+			recorde.volume = 0.4f;
+		}
 	}
 }
