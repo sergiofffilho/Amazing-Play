@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Facebook.Unity;
+using UnityEngine.SceneManagement;
 
 public class FacebookMannager : MonoBehaviour {
 	
@@ -14,6 +15,8 @@ public class FacebookMannager : MonoBehaviour {
 		} else {
 			// Already initialized, signal an app activation App Event
 			FB.ActivateApp();
+			var perms = new List<string>(){"public_profile", "email", "user_friends"};
+			FB.LogInWithReadPermissions(perms, AuthCallback);
 		}
 	}
 
@@ -64,13 +67,24 @@ public class FacebookMannager : MonoBehaviour {
 //				new Uri("https://lh3.googleusercontent.com/Xd8rwzV6Zs94RHZKWbLCpFWNgeHKtWwTL_xWjOKvZuHaNGD-gLh4srx_3zqn_lafe_k=w300-rw"),
 //				callback: ShareCallback
 //			);
-			FB.ShareLink(
-				new Uri("https://play.google.com/store/apps/details?id=com.amazingplay.risco"),
-				"Hey, fiz " + PlayerPrefs.GetFloat ("Pontuacao")+" pontos!",
-				"Será que você consegue fazer melhor que eu?",
-				new Uri("https://lh3.googleusercontent.com/Xd8rwzV6Zs94RHZKWbLCpFWNgeHKtWwTL_xWjOKvZuHaNGD-gLh4srx_3zqn_lafe_k=w300-rw"),
-				callback: ShareCallback
-			);
+			if(SceneManager.GetActiveScene().name.Equals("Menu 05.09.16")){
+				FB.ShareLink(
+					new Uri("https://facebook.com/aamazingplay"),
+					"Olha meu recorde: " + PlayerPrefs.GetFloat ("Pontuacao")+" pontos!",
+					"Será que você consegue fazer melhor?",
+					new Uri("https://lh3.googleusercontent.com/Xd8rwzV6Zs94RHZKWbLCpFWNgeHKtWwTL_xWjOKvZuHaNGD-gLh4srx_3zqn_lafe_k=w300-rw"),
+					callback: ShareCallback
+				);
+			}else if(SceneManager.GetActiveScene().name.Equals("GameOver")){
+				FB.ShareLink(
+					new Uri("https://facebook.com/aamazingplay"),
+					"Hey, fiz " + PlayerPrefs.GetFloat ("Pontuacao")+" pontos!",
+					"Será que você consegue fazer melhor?",
+					new Uri("https://lh3.googleusercontent.com/Xd8rwzV6Zs94RHZKWbLCpFWNgeHKtWwTL_xWjOKvZuHaNGD-gLh4srx_3zqn_lafe_k=w300-rw"),
+					callback: ShareCallback
+				);
+			}
+
 		} else {
 			Debug.Log("User cancelled login");
 		}
