@@ -162,11 +162,11 @@ public class ControladorGameGameOver : MonoBehaviour {
 		} else {
 			if (PlayerPrefs.GetInt ("continue") == 0) {				
 				Debug.Log ("ligado");
-				if (verificadorAleatorio >= 20 && verificadorAleatorio <= 50) {
-					painelContinue.SetActive (true);
-				} else {
-					voltarInGame ();
-				}
+//				if (verificadorAleatorio >= 20 && verificadorAleatorio <= 50) {
+				painelContinue.SetActive (true);
+//				} else {
+//					voltarInGame ();
+//				}
 			}
 			action (true);
 		}
