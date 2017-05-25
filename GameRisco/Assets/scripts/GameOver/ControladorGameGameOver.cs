@@ -148,22 +148,29 @@ public class ControladorGameGameOver : MonoBehaviour {
 	}
 
 	IEnumerator ContagemRegressivaInicio(){
-		tempo.text = "2";
 		yield return new WaitForSeconds (1f);
+		tempo.text = "2";
 		StartCoroutine (ContagemRegressivaContinue ());
 	}
 
 	IEnumerator ContagemRegressivaContinue(){
-		tempo.text = "1";
 		yield return new WaitForSeconds (1f);
+		tempo.text = "1";
+		StartCoroutine (ContagemRegressivaGo ());
+	}
+
+	IEnumerator ContagemRegressivaGo(){
+		yield return new WaitForSeconds (1f);
+		tempo.text = "Go";
 		StartCoroutine (ContagemRegressivaFim ());
 	}
 
 	IEnumerator ContagemRegressivaFim(){
-		tempo.text = "Go";
 		yield return new WaitForSeconds (1f);
 		voltarInGame ();
 	}
+
+
 
 	public void buttonRate(){
 		Application.OpenURL("https://play.google.com/store/apps/details?id=com.amazingplay.risco&hl=pt_BR");
