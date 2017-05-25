@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public enum Swipe { None, Up, Down, Left, Right };
 
 public class ControladorPlayer : MonoBehaviour{
@@ -52,6 +53,7 @@ public class ControladorPlayer : MonoBehaviour{
 
 	GameObject player;
 
+	public Text textGotas;
 
 	void Awake(){
 		podeAnimarMorte = false;
@@ -87,6 +89,8 @@ public class ControladorPlayer : MonoBehaviour{
 		isAlive = true; 
 
 		podeTocarRecord = true;
+
+		textGotas.text = PlayerPrefs.GetFloat ("gotas").ToString ();
 
     }
 
@@ -146,6 +150,12 @@ public class ControladorPlayer : MonoBehaviour{
 			Destroy (coll.gameObject);
 			gameOver();
 			ControladorAnimacaoMorteT._instance.StartCoroutine("AnimarMorte");
+		}
+
+		if (coll.gameObject.CompareTag("Gota")) {
+			Destroy (coll.gameObject);
+			PlayerPrefs.SetFloat ("gotas", PlayerPrefs.GetFloat ("gotas") + 1);
+			textGotas.text = PlayerPrefs.GetFloat ("gotas").ToString ();
 		}
 
         if (coll.gameObject.CompareTag("platCima")) {

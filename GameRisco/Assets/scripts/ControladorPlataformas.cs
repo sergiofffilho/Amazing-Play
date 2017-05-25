@@ -63,8 +63,8 @@ public class ControladorPlataformas : MonoBehaviour {
 		int verificadorAleatorio = Random.Range (25, 35);
 		int verificadorT = Random.Range (0, 100);
 
-		float desvioMoedaX = 1;
-		float desvioMoedaY = 1;
+		float desvioMoedaX = 0.8f;
+		float desvioMoedaY = 0.8f;
 
 		//Indo para direita
 		if (controladorPlayer.DirecaoX() == 1){
