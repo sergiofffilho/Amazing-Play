@@ -30,6 +30,9 @@ public class ControladorGameGameOver : MonoBehaviour {
 	private AsyncOperation async;
 
 	public GameObject painelContinue;
+	public GameObject painelReady;
+	public Text tempo;
+
 	GameObject botaoCancelarAds;
 
 	int verificadorAleatorio;
@@ -131,7 +134,9 @@ public class ControladorGameGameOver : MonoBehaviour {
 		{
 			case ShowResult.Finished:
 				Debug.Log ("The ad was successfully shown.");
-				voltarInGame ();
+//				SceneManager.LoadScene("Continue");
+				painelReady.SetActive(true);
+				StartCoroutine (ContagemRegressivaInicio ());
 				break;
 			case ShowResult.Skipped:
 				Debug.Log("The ad was skipped before reaching the end.");
@@ -140,6 +145,24 @@ public class ControladorGameGameOver : MonoBehaviour {
 				Debug.LogError("The ad failed to be shown.");
 				break;
 		}
+	}
+
+	IEnumerator ContagemRegressivaInicio(){
+		tempo.text = "2";
+		yield return new WaitForSeconds (1f);
+		StartCoroutine (ContagemRegressivaContinue ());
+	}
+
+	IEnumerator ContagemRegressivaContinue(){
+		tempo.text = "1";
+		yield return new WaitForSeconds (1f);
+		StartCoroutine (ContagemRegressivaFim ());
+	}
+
+	IEnumerator ContagemRegressivaFim(){
+		tempo.text = "Go";
+		yield return new WaitForSeconds (1f);
+		voltarInGame ();
 	}
 
 	public void buttonRate(){
@@ -172,7 +195,7 @@ public class ControladorGameGameOver : MonoBehaviour {
 		}
 	} 
 
-	void voltarInGame(){
+	public void voltarInGame(){
 		SceneManager.UnloadScene ("GameOver");
 		controladorPlayer.detectSwipe = true;
 		controladorPlayer.setIsAlive (true);
