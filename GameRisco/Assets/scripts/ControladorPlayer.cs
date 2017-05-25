@@ -154,7 +154,7 @@ public class ControladorPlayer : MonoBehaviour{
 
 		if (coll.gameObject.CompareTag("Gota")) {
 			Destroy (coll.gameObject);
-			PlayerPrefs.SetFloat ("gotas", PlayerPrefs.GetFloat ("gotas") + 1);
+			PlayerPrefs.SetFloat ("gotas", PlayerPrefs.GetFloat ("gotas") + 10);
 			textGotas.text = PlayerPrefs.GetFloat ("gotas").ToString ();
 		}
 

@@ -37,6 +37,8 @@ public class ControladorGameGameOver : MonoBehaviour {
 
 	int verificadorAleatorio;
 
+	public Button skipVideo;
+
 	// Use this for initialization
 	void Start () {
 		particula = GameObject.FindGameObjectWithTag ("controladorLinha").GetComponent<ParticleSystem> ();
@@ -194,6 +196,10 @@ public class ControladorGameGameOver : MonoBehaviour {
 				Debug.Log ("ligado");
 //				if (verificadorAleatorio >= 20 && verificadorAleatorio <= 50) {
 				painelContinue.SetActive (true);
+
+				if(PlayerPrefs.GetFloat("gotas") < 100){
+					skipVideo.interactable = false;
+				}
 //				} else {
 //					voltarInGame ();
 //				}
@@ -210,5 +216,11 @@ public class ControladorGameGameOver : MonoBehaviour {
 		ControladorAudio.playGame ();
 		pontuacaoInGame.SetActive (true);
 		PlayerPrefs.SetInt ("continue", 1);
+	}
+
+	public void SkipVideo(){
+		PlayerPrefs.SetFloat ("gotas", PlayerPrefs.GetFloat ("gotas") - 100);
+		painelReady.SetActive(true);
+		StartCoroutine (ContagemRegressivaInicio ());
 	}
 }
