@@ -214,6 +214,7 @@ public class ControladorGameGameOver : MonoBehaviour {
 		controladorPlayer.setIsAlive (true);
 		particula.maxParticles = 10000;
 		ControladorAudio.playGame ();
+		controladorPlayer.textGotas.text = PlayerPrefs.GetFloat ("gotas").ToString ();
 		pontuacaoInGame.SetActive (true);
 		PlayerPrefs.SetInt ("continue", 1);
 	}

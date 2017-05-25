@@ -33,6 +33,7 @@ public class ControladorPlataformas : MonoBehaviour {
 	int direcaoFuturaX;
 	int direcaoFuturaY;
 
+
 	void Start () {
 		tamanhoPlataformaEmpe = 4.4f;
 		tamanhoPlataformaDeitada =10;
@@ -44,7 +45,29 @@ public class ControladorPlataformas : MonoBehaviour {
 		posicaoPlayer = controladorPlayer.getPosicaoPlayer ();
 
 		Instantiate (plataformaDireita, new Vector3(posicaoX, posicaoY), Quaternion.identity);
+
+		StartCoroutine(checkInternetConnection((isConnected)=>{
+		}));
+
     }
+
+	bool hasInternet;
+
+	IEnumerator checkInternetConnection(System.Action<bool> action){
+		hasInternet = false;
+		WWW www = new WWW("http://google.com");
+		yield return www;
+		Debug.Log (action);
+
+		if (www.error != null) {
+			hasInternet = false;
+			action (false);
+		} else {
+			hasInternet = true;
+			action (true);
+		}
+	} 
+
 
 	public void continuePlataforma(Vector3 posicao){		
 		posicaoX = 3;
@@ -73,12 +96,14 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoY = posicaoY + tamanhoPlataformaEmpe;
 				Instantiate (plataformaCima, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
 
-				if (verificadorT > 10 && verificadorT <= 20) {
-					Instantiate (gota, new Vector3 ( (posicaoX + desvioMoedaX),posicaoY), Quaternion.identity);
-				}
+				if (hasInternet) {
+					if (verificadorT > 10 && verificadorT <= 20) {
+						Instantiate (gota, new Vector3 ((posicaoX + desvioMoedaX), posicaoY), Quaternion.identity);
+					}
 
-				if (verificadorT > 21 && verificadorT <= 30) {
-					Instantiate (gota, new Vector3 ( posicaoX - desvioMoedaX ,posicaoY), Quaternion.identity);
+					if (verificadorT > 21 && verificadorT <= 30) {
+						Instantiate (gota, new Vector3 (posicaoX - desvioMoedaX, posicaoY), Quaternion.identity);
+					}
 				}
 
 				if (verificadorT >= 43 && verificadorT <= 50) {
@@ -96,12 +121,14 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoX = posicaoX + tamanhoPlataformaDeitada;	
 				Instantiate (plataformaDireita, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
 
-				if (verificadorT > 10 && verificadorT <= 20) {
-					Instantiate (gota, new Vector3 ( posicaoX,(posicaoY + desvioMoedaY)), Quaternion.identity);
-				}
+				if (hasInternet) {
+					if (verificadorT > 10 && verificadorT <= 20) {
+						Instantiate (gota, new Vector3 (posicaoX, (posicaoY + desvioMoedaY)), Quaternion.identity);
+					}
 
-				if (verificadorT > 21 && verificadorT <= 30) {
-					Instantiate (gota, new Vector3 ( posicaoX,(posicaoY - desvioMoedaY)), Quaternion.identity);
+					if (verificadorT > 21 && verificadorT <= 30) {
+						Instantiate (gota, new Vector3 (posicaoX, (posicaoY - desvioMoedaY)), Quaternion.identity);
+					}
 				}
 
 				if (verificadorT >= 43 && verificadorT <= 50) {
@@ -120,12 +147,14 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoY = posicaoY - tamanhoPlataformaEmpe;
 				Instantiate (plataformaBaixo, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
 
-				if (verificadorT > 10 && verificadorT <= 20) {
-					Instantiate (gota, new Vector3 ( (posicaoX + desvioMoedaX),posicaoY), Quaternion.identity);
-				}
+				if (hasInternet) {
+					if (verificadorT > 10 && verificadorT <= 20) {
+						Instantiate (gota, new Vector3 ((posicaoX + desvioMoedaX), posicaoY), Quaternion.identity);
+					}
 
-				if (verificadorT > 21 && verificadorT <= 30) {
-					Instantiate (gota, new Vector3 ( posicaoX - desvioMoedaX ,posicaoY), Quaternion.identity);
+					if (verificadorT > 21 && verificadorT <= 30) {
+						Instantiate (gota, new Vector3 (posicaoX - desvioMoedaX, posicaoY), Quaternion.identity);
+					}
 				}
 
 				if (verificadorT >= 43 && verificadorT <= 50) {
@@ -148,14 +177,15 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoY = posicaoY + tamanhoPlataformaEmpe;
 				Instantiate (plataformaCima, new Vector3 (posicaoX, posicaoY ), Quaternion.identity);
 
-				if (verificadorT > 10 && verificadorT <= 20) {
-					Instantiate (gota, new Vector3 ( (posicaoX + desvioMoedaX),posicaoY), Quaternion.identity);
-				}
+				if (hasInternet) {
+					if (verificadorT > 10 && verificadorT <= 20) {
+						Instantiate (gota, new Vector3 ((posicaoX + desvioMoedaX), posicaoY), Quaternion.identity);
+					}
 
-				if (verificadorT > 21 && verificadorT <= 30) {
-					Instantiate (gota, new Vector3 ( posicaoX - desvioMoedaX ,posicaoY), Quaternion.identity);
+					if (verificadorT > 21 && verificadorT <= 30) {
+						Instantiate (gota, new Vector3 (posicaoX - desvioMoedaX, posicaoY), Quaternion.identity);
+					}
 				}
-
 				if (verificadorT >= 43 && verificadorT <= 50) {
 					Instantiate (TDireita, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
 				}
@@ -171,14 +201,15 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoX = posicaoX - tamanhoPlataformaDeitada;	
 				Instantiate (plataformaEsquerda, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
 
-				if (verificadorT > 10 && verificadorT <= 20) {
-					Instantiate (gota, new Vector3 ( posicaoX,(posicaoY + desvioMoedaY)), Quaternion.identity);
-				}
+				if (hasInternet) {
+					if (verificadorT > 10 && verificadorT <= 20) {
+						Instantiate (gota, new Vector3 (posicaoX, (posicaoY + desvioMoedaY)), Quaternion.identity);
+					}
 
-				if (verificadorT > 21 && verificadorT <= 30) {
-					Instantiate (gota, new Vector3 ( posicaoX,(posicaoY - desvioMoedaY)), Quaternion.identity);
+					if (verificadorT > 21 && verificadorT <= 30) {
+						Instantiate (gota, new Vector3 (posicaoX, (posicaoY - desvioMoedaY)), Quaternion.identity);
+					}
 				}
-
 				if (verificadorT >= 43 && verificadorT <= 50) {
 					Instantiate (TBaixo, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
 				}
@@ -195,14 +226,15 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoY = posicaoY - tamanhoPlataformaEmpe;
 				Instantiate (plataformaBaixo, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
 
-				if (verificadorT > 10 && verificadorT <= 20) {
-					Instantiate (gota, new Vector3 ( (posicaoX + desvioMoedaX),posicaoY), Quaternion.identity);
-				}
+				if (hasInternet) {
+					if (verificadorT > 10 && verificadorT <= 20) {
+						Instantiate (gota, new Vector3 ((posicaoX + desvioMoedaX), posicaoY), Quaternion.identity);
+					}
 
-				if (verificadorT > 21 && verificadorT <= 30) {
-					Instantiate (gota, new Vector3 ( posicaoX - desvioMoedaX ,posicaoY), Quaternion.identity);
+					if (verificadorT > 21 && verificadorT <= 30) {
+						Instantiate (gota, new Vector3 (posicaoX - desvioMoedaX, posicaoY), Quaternion.identity);
+					}
 				}
-
 				if (verificadorT >= 43 && verificadorT <= 50) {
 					Instantiate (TDireita, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
 				}
@@ -223,12 +255,14 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoY = posicaoY + tamanhoPlataformaEmpe;
 				Instantiate (plataformaEsquerda, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
 
-				if (verificadorT > 10 && verificadorT <= 20) {
-					Instantiate (gota, new Vector3 ( posicaoX,(posicaoY + desvioMoedaY)), Quaternion.identity);
-				}
+				if (hasInternet) {
+					if (verificadorT > 10 && verificadorT <= 20) {
+						Instantiate (gota, new Vector3 (posicaoX, (posicaoY + desvioMoedaY)), Quaternion.identity);
+					}
 
-				if (verificadorT > 21 && verificadorT <= 30) {
-					Instantiate (gota, new Vector3 ( posicaoX,(posicaoY - desvioMoedaY)), Quaternion.identity);
+					if (verificadorT > 21 && verificadorT <= 30) {
+						Instantiate (gota, new Vector3 (posicaoX, (posicaoY - desvioMoedaY)), Quaternion.identity);
+					}
 				}
 
 				if (verificadorT >= 43 && verificadorT <= 50) {
@@ -246,12 +280,14 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoY = posicaoY + tamanhoPlataformaDeitada;
 				Instantiate (plataformaCima, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
 
-				if (verificadorT > 10 && verificadorT <= 20) {
-					Instantiate (gota, new Vector3 ( (posicaoX + desvioMoedaX),posicaoY), Quaternion.identity);
-				}
+				if (hasInternet) {
+					if (verificadorT > 10 && verificadorT <= 20) {
+						Instantiate (gota, new Vector3 ((posicaoX + desvioMoedaX), posicaoY), Quaternion.identity);
+					}
 
-				if (verificadorT > 21 && verificadorT <= 30) {
-					Instantiate (gota, new Vector3 ( posicaoX - desvioMoedaX ,posicaoY), Quaternion.identity);
+					if (verificadorT > 21 && verificadorT <= 30) {
+						Instantiate (gota, new Vector3 (posicaoX - desvioMoedaX, posicaoY), Quaternion.identity);
+					}
 				}
 
 				if (verificadorT >= 43 && verificadorT <= 50) {
@@ -270,12 +306,14 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoY = posicaoY + tamanhoPlataformaEmpe;
 				Instantiate (plataformaDireita, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
 
-				if (verificadorT > 10 && verificadorT <= 20) {
-					Instantiate (gota, new Vector3 ( posicaoX,(posicaoY + desvioMoedaY)), Quaternion.identity);
-				}
+				if (hasInternet) {
+					if (verificadorT > 10 && verificadorT <= 20) {
+						Instantiate (gota, new Vector3 (posicaoX, (posicaoY + desvioMoedaY)), Quaternion.identity);
+					}
 
-				if (verificadorT > 21 && verificadorT <= 30) {
-					Instantiate (gota, new Vector3 ( posicaoX,(posicaoY - desvioMoedaY)), Quaternion.identity);
+					if (verificadorT > 21 && verificadorT <= 30) {
+						Instantiate (gota, new Vector3 (posicaoX, (posicaoY - desvioMoedaY)), Quaternion.identity);
+					}
 				}
 
 				if (verificadorT >= 43 && verificadorT <= 50) {
@@ -298,12 +336,14 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoY = posicaoY - tamanhoPlataformaEmpe;
 				Instantiate (plataformaEsquerda, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
 
-				if (verificadorT > 10 && verificadorT <= 20) {
-					Instantiate (gota, new Vector3 ( posicaoX,(posicaoY + desvioMoedaY)), Quaternion.identity);
-				}
+				if (hasInternet) {
+					if (verificadorT > 10 && verificadorT <= 20) {
+						Instantiate (gota, new Vector3 (posicaoX, (posicaoY + desvioMoedaY)), Quaternion.identity);
+					}
 
-				if (verificadorT > 21 && verificadorT <= 30) {
-					Instantiate (gota, new Vector3 ( posicaoX,(posicaoY - desvioMoedaY)), Quaternion.identity);
+					if (verificadorT > 21 && verificadorT <= 30) {
+						Instantiate (gota, new Vector3 (posicaoX, (posicaoY - desvioMoedaY)), Quaternion.identity);
+					}
 				}
 
 				if (verificadorT >= 43 && verificadorT <= 50) {
@@ -321,12 +361,14 @@ public class ControladorPlataformas : MonoBehaviour {
 				posicaoY = posicaoY - tamanhoPlataformaDeitada;
 				Instantiate (plataformaBaixo, new Vector3 (posicaoX,posicaoY), Quaternion.identity);
 
-				if (verificadorT > 10 && verificadorT <= 20) {
-					Instantiate (gota, new Vector3 ( (posicaoX + desvioMoedaX),posicaoY), Quaternion.identity);
-				}
+				if (hasInternet) {
+					if (verificadorT > 10 && verificadorT <= 20) {
+						Instantiate (gota, new Vector3 ((posicaoX + desvioMoedaX), posicaoY), Quaternion.identity);
+					}
 
-				if (verificadorT > 21 && verificadorT <= 30) {
-					Instantiate (gota, new Vector3 ( posicaoX - desvioMoedaX ,posicaoY), Quaternion.identity);
+					if (verificadorT > 21 && verificadorT <= 30) {
+						Instantiate (gota, new Vector3 (posicaoX - desvioMoedaX, posicaoY), Quaternion.identity);
+					}
 				}
 
 				if (verificadorT >= 43 && verificadorT <= 50) {
@@ -346,14 +388,15 @@ public class ControladorPlataformas : MonoBehaviour {
 				Instantiate (plataformaDireita, new Vector3 (posicaoX, posicaoY), Quaternion.identity);
 				//controladorLinha.setPositionLinha (plataformaDireita.gameObject.transform.position);
 
-				if (verificadorT > 10 && verificadorT <= 20) {
-					Instantiate (gota, new Vector3 ( posicaoX,(posicaoY + desvioMoedaY)), Quaternion.identity);
-				}
+				if (hasInternet) {
+					if (verificadorT > 10 && verificadorT <= 20) {
+						Instantiate (gota, new Vector3 (posicaoX, (posicaoY + desvioMoedaY)), Quaternion.identity);
+					}
 
-				if (verificadorT > 21 && verificadorT <= 30) {
-					Instantiate (gota, new Vector3 ( posicaoX,(posicaoY - desvioMoedaY)), Quaternion.identity);
+					if (verificadorT > 21 && verificadorT <= 30) {
+						Instantiate (gota, new Vector3 (posicaoX, (posicaoY - desvioMoedaY)), Quaternion.identity);
+					}
 				}
-
 				if (verificadorT >= 43 && verificadorT <= 50) {
 					Instantiate (TBaixo, new Vector3 ( posicaoX,posicaoY), Quaternion.identity);
 				}
