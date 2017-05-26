@@ -77,7 +77,7 @@ public class ControladorPlataformas : MonoBehaviour {
 	}
 	
 	void Update () {
-		posicaoPlayer = controladorPlayer.getPosicaoPlayer ();
+		 posicaoPlayer = controladorPlayer.getPosicaoPlayer ();
 	}
 
 	public void InicializarPlataformas(){
