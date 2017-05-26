@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public enum Swipe { None, Up, Down, Left, Right };
@@ -44,6 +45,7 @@ public class ControladorPlayer : MonoBehaviour{
 	public bool detectSwipe;
 	int colisaoPlat;
 
+	bool init;
 	bool isAlive;
 	bool podeAnimarMorte;
 	bool podeTocarRecord;
@@ -65,6 +67,7 @@ public class ControladorPlayer : MonoBehaviour{
 
 		estado = true;
 		detectSwipe = true;
+		initCoroutine ();
 		colisaoPlat = 0;
 
 		// sitar pos. swipe
@@ -93,7 +96,7 @@ public class ControladorPlayer : MonoBehaviour{
 		textGotas.text = PlayerPrefs.GetFloat ("gotas").ToString ();
 
     }
-
+		
 	void Update (){
 		posicaoVelha = transform.position;
 		verificarDistancia ();
@@ -101,8 +104,9 @@ public class ControladorPlayer : MonoBehaviour{
 		if (getIsAlive()) {
 			calcularPontuacao ();
 
-			transform.Translate (velocity * velocidade * Time.deltaTime);
-
+			if (init){
+				transform.Translate (velocity * velocidade * Time.deltaTime);
+			}
 			if (DirecaoX () != 0) {
 				controladorGravidade.modificarGravidade (ref gravidade,DirecaoX(),DirecaoY(), estado);
 				solo = Physics2D.Raycast (transform.position , Vector2.up*Math.Sign(gravidade),4f,linha);
@@ -132,6 +136,14 @@ public class ControladorPlayer : MonoBehaviour{
 				DetectSwipe ();
 			}
 		}	
+	}
+
+	public void initCoroutine() {
+		StartCoroutine (initGame());
+	}
+	IEnumerator initGame(){
+		yield return new WaitForSeconds(1.5f);
+		init = true;
 	}
 
     public int DirecaoX()
@@ -500,6 +512,7 @@ public class ControladorPlayer : MonoBehaviour{
 		controladorMorte.transform.position = new Vector3(0,2.1f,0);
 		transform.position = new Vector3 (0,2.1f,0);
 
+		init = false;
 		isAlive = false;
 		//SceneManager.LoadScene("GameOver",LoadSceneMode.Additive);
 	}

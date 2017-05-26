@@ -216,6 +216,7 @@ public class ControladorGameGameOver : MonoBehaviour {
 		ControladorAudio.playGame ();
 		controladorPlayer.textGotas.text = PlayerPrefs.GetFloat ("gotas").ToString ();
 		pontuacaoInGame.SetActive (true);
+		controladorPlayer.initCoroutine ();
 		PlayerPrefs.SetInt ("continue", 1);
 	}
 
