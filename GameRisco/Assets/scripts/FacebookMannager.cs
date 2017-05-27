@@ -4,17 +4,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using Facebook.Unity;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class FacebookMannager : MonoBehaviour {
-	
+
+//	public Text erro;
+//	public Text erro2;
+//	public Text erro3;
+//
 	public void shareFacebook ()
 	{
 		if (!FB.IsInitialized) {
 			// Initialize the Facebook SDK
+//			erro.text = "Call Init";
 			FB.Init(InitCallback, OnHideUnity);
+
 		} else {
 			// Already initialized, signal an app activation App Event
+//			erro.text = "Else Init";
 			FB.ActivateApp();
+//			var perms = new List<string>(){"publish_actions"};
+//			FB.LogInWithPublishPermissions(perms, AuthCallback);
 			var perms = new List<string>(){"public_profile", "email", "user_friends"};
 			FB.LogInWithReadPermissions(perms, AuthCallback);
 		}
@@ -23,14 +33,19 @@ public class FacebookMannager : MonoBehaviour {
 	private void InitCallback ()
 	{
 		if (FB.IsInitialized) {
+//			erro2.text = "Is init";
 			// Signal an app activation App Event
 			FB.ActivateApp();
 			// Continue with Facebook SDK
 			// ...
+//			FB.LogOut();
+//			var perms = new List<string>(){"publish_actions"};
+//			FB.LogInWithPublishPermissions(perms, AuthCallback);
 
 			var perms = new List<string>(){"public_profile", "email", "user_friends"};
 			FB.LogInWithReadPermissions(perms, AuthCallback);
 		} else {
+//			erro2.text = "Dont init";
 			Debug.Log("Failed to Initialize the Facebook SDK");
 		}
 	}
@@ -49,7 +64,11 @@ public class FacebookMannager : MonoBehaviour {
 
 
 	private void AuthCallback (ILoginResult result) {
+//		Debug.Log(result.AccessToken);
+
 		if (FB.IsLoggedIn) {
+			
+
 			// AccessToken class will have session details
 			var aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
 			// Print current access token's User ID
@@ -70,7 +89,7 @@ public class FacebookMannager : MonoBehaviour {
 			if(SceneManager.GetActiveScene().name.Equals("Menu 05.09.16")){
 				FB.ShareLink(
 					new Uri("https://facebook.com/aamazingplay"),
-					"Olha meu recorde: " + PlayerPrefs.GetFloat ("Pontuacao")+" pontos!",
+					"Olha meu recorde: " + PlayerPrefs.GetFloat ("Recorde")+" pontos!",
 					"Será que você consegue fazer melhor?",
 					new Uri("https://lh3.googleusercontent.com/Xd8rwzV6Zs94RHZKWbLCpFWNgeHKtWwTL_xWjOKvZuHaNGD-gLh4srx_3zqn_lafe_k=w300-rw"),
 					callback: ShareCallback
@@ -86,8 +105,12 @@ public class FacebookMannager : MonoBehaviour {
 			}
 
 		} else {
+//			erro2.text = "Dont Login";
+
 			Debug.Log("User cancelled login");
 		}
+//		erro3.text = result.ToString();
+//		Debug.Log (result);
 	}
 
 
@@ -100,6 +123,7 @@ public class FacebookMannager : MonoBehaviour {
 			Debug.Log(result.PostId);
 		} else {
 			// Share succeeded without postID
+			FB.LogOut();
 			Debug.Log("ShareLink success!");
 		}
 	}

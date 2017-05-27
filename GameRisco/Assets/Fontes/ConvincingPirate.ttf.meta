@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 613446f86ac0c2e4db0560c13ab211f1
+timeCreated: 1495857090
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Convincing Pirate
+  fontNames:
+  - Convincing Pirate
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
