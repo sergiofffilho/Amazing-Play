@@ -21,6 +21,9 @@ public class ControladorAnimacaoMorteT : MonoBehaviour {
 		controladorPlayer.velocidade = controladorPlayer.velocidadeGameOver;
 		yield return new WaitForSeconds(1.0f);
 		SceneManager.LoadScene("GameOver",LoadSceneMode.Additive);
+		GameObject.Find ("Canvas").transform.GetChild (1).gameObject.SetActive (false);
+//		GameObject.Find("Player").transform.GetChild(2).gameObject.SetActive (false); 	
+
 	}
 
 }

@@ -57,6 +57,8 @@ public class ControladorPlayer : MonoBehaviour{
 
 	public Text textGotas;
 
+	private PlayerMoviments playerMoviments;
+
 	void Awake(){
 		podeAnimarMorte = false;
 		velocity.x = 1;
@@ -78,6 +80,7 @@ public class ControladorPlayer : MonoBehaviour{
         pontuacao = 0;
 
 		player = GameObject.FindGameObjectWithTag ("player");
+		playerMoviments = GameObject.Find("PlayerMoviments").GetComponent<PlayerMoviments> ();
 
 		particula = GameObject.FindGameObjectWithTag ("controladorLinha").GetComponent<ParticleSystem> ();
       
@@ -183,8 +186,10 @@ public class ControladorPlayer : MonoBehaviour{
 				estado = true;
 			}
 
+			playerMoviments.SavePositionsPlayer (getPosicaoPlayer ());
 			controladorPlataformas.InicializarPlataformas();
 			controladorMorte.AtualizarPosição (gameObject.transform.position);
+
 
 			if (DirecaoX () == 1) {
 				velocity.y = velocity.x;
@@ -215,6 +220,7 @@ public class ControladorPlayer : MonoBehaviour{
 				estado = true;
 			}
 
+			playerMoviments.SavePositionsPlayer (getPosicaoPlayer ());
 			controladorPlataformas.InicializarPlataformas();
 			controladorMorte.AtualizarPosição (gameObject.transform.position);
 
@@ -246,6 +252,7 @@ public class ControladorPlayer : MonoBehaviour{
 				estado = true;
 			}
 
+			playerMoviments.SavePositionsPlayer (getPosicaoPlayer ());
 			controladorPlataformas.InicializarPlataformas();
 			controladorMorte.AtualizarPosição (gameObject.transform.position);
 		
@@ -275,7 +282,7 @@ public class ControladorPlayer : MonoBehaviour{
 				velocity.y = 0;
 				estado = true;
 			}
-
+			playerMoviments.SavePositionsPlayer (getPosicaoPlayer ());
 			controladorPlataformas.InicializarPlataformas();
 			controladorMorte.AtualizarPosição (gameObject.transform.position);
 
@@ -491,6 +498,7 @@ public class ControladorPlayer : MonoBehaviour{
 	}
 
 	public void gameOver(){
+
 		player.SetActive (false);
 		podeAnimarMorte = true;
 		velocidadeGameOver = velocidade;
@@ -508,9 +516,11 @@ public class ControladorPlayer : MonoBehaviour{
 		controladorGravidade.gravidade = -0.97f;
 		estado = true;
 
+		playerMoviments.SavePositionsPlayer (getPosicaoPlayer ());
 		particula.maxParticles = 0;
 		controladorMorte.transform.position = new Vector3(0,2.1f,0);
 		transform.position = new Vector3 (0,2.1f,0);
+		DontDestroyOnLoad (playerMoviments);
 
 		init = false;
 		isAlive = false;
