@@ -38,6 +38,9 @@ public class ControladorGameGameOver : MonoBehaviour {
 	int verificadorAleatorio;
 
 	public Button skipVideo;
+	public Button watchAds;
+
+	PlayerMoviments playerMoviments;
 
 	// Use this for initialization
 	void Start () {
@@ -51,6 +54,8 @@ public class ControladorGameGameOver : MonoBehaviour {
 		audio = GameObject.FindGameObjectWithTag ("Audio");
 
 		textRecorde = GameObject.FindGameObjectWithTag ("Pontuacao").GetComponent<Text> ();
+
+		playerMoviments = GameObject.Find ("PlayerMoviments").GetComponent<PlayerMoviments> ();
 
 		pontuacaoInGame.SetActive (false);
 
@@ -99,6 +104,7 @@ public class ControladorGameGameOver : MonoBehaviour {
 		StartCoroutine( loadingPlay (level));
 
 		Destroy(audio);
+		Destroy(playerMoviments.gameObject);
 		Application.LoadLevel (0);	
 	}
 
@@ -186,30 +192,31 @@ public class ControladorGameGameOver : MonoBehaviour {
 		yield return www;
 		Debug.Log (action);
 		if (www.error != null) {
-			if (PlayerPrefs.GetInt ("continue") == 0) {
 				Debug.Log ("desligado");
-				voltarInGame ();
-			}
+				watchAds.interactable = false;
+//				painelContinue.SetActive (true);
+//
+//				if(PlayerPrefs.GetFloat("gotas") < 100){
+//					skipVideo.interactable = false;
+//				}
+
 			action (false);
 		} else {
-			if (PlayerPrefs.GetInt ("continue") == 0) {				
-				Debug.Log ("ligado");
-//				if (verificadorAleatorio >= 20 && verificadorAleatorio <= 50) {
-				painelContinue.SetActive (true);
+			Debug.Log ("ligado");
 
-				if(PlayerPrefs.GetFloat("gotas") < 100){
-					skipVideo.interactable = false;
-				}
-//				} else {
-//					voltarInGame ();
-//				}
-			}
-			action (true);
 		}
+		painelContinue.SetActive (true);
+
+		if(PlayerPrefs.GetFloat("gotas") < 100){
+			skipVideo.interactable = false;
+		}
+		action (true);
 	} 
 
 	public void voltarInGame(){
 		SceneManager.UnloadScene ("GameOver");
+		GameObject.Find ("Canvas").transform.GetChild (1).gameObject.SetActive (true);
+//		controladorPlayer.gameObject.transform.GetChild(2).gameObject.SetActive (true);
 		controladorPlayer.detectSwipe = true;
 		controladorPlayer.setIsAlive (true);
 		particula.maxParticles = 10000;
@@ -217,7 +224,7 @@ public class ControladorGameGameOver : MonoBehaviour {
 		controladorPlayer.textGotas.text = PlayerPrefs.GetFloat ("gotas").ToString ();
 		pontuacaoInGame.SetActive (true);
 		controladorPlayer.initCoroutine ();
-		PlayerPrefs.SetInt ("continue", 1);
+//		PlayerPrefs.SetInt ("continue", 1);
 	}
 
 	public void SkipVideo(){
